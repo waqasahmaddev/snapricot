@@ -2,49 +2,79 @@
 
 > The single source of truth for "where are we?". Update it at the end of every working session.
 
-**Current phase:** Phase 1 (Capture): in progress
-**Next phase:** History module, then Phase 2 (Editor)
-**Target:** v1.0 (Windows) about 8 weeks after Phase 1 starts, at ~8–10 hours per week
+**Current phase:** Phase 1 (Capture): feature-complete for Windows, being polished from the owner's hands-on testing
+**Next phase:** History module (Today/Earlier grid), then Phase 2 (annotation editor)
+**Last updated:** 2026-10-09 (end of the kickoff session)
 
-![Phase 0 shell](images/phase0-shell.png)
+## Start here (next session)
 
-## Phase 0 checklist
+1. Read [AGENTS.md](../AGENTS.md) (rules: modules only reference Core; no `init` in settings records; **agents never commit**).
+2. Build and test: `dotnet build Snapricot.slnx` and `dotnet test --solution Snapricot.slnx` (**177 tests, all passing**).
+3. Ask the owner whether the latest overlay fix (no black screen, opaque overlay) held up in daily use. That was the
+   last open bug report.
+4. Git: all code is committed by the owner (last commit `01f6a06`, "no black screen on capture"). Agents never commit;
+   the owner commits and pushes from Rider using the personal account (`git@github-personal:waqasahmaddev/snapricot.git`).
 
-- [x] Name chosen: Snapricot ([vision](product/vision.md))
-- [x] UI mockups agreed ([design](product/design.md))
-- [x] Brand: logo (apricot with a snapped slice) and palette ([brand](product/brand.md))
-- [x] Build and marketing plan written ([roadmap](plan/roadmap.md), [marketing](plan/marketing.md))
-- [x] Hosting and business decisions ([hosting](plan/hosting-and-distribution.md), [business model](plan/business-model.md))
-- [x] Architecture decided and recorded (ADR-0001 to ADR-0010)
-- [x] Solution scaffold: Core, Platform.Windows, Platform.MacOS, App, Screenshot module
-- [x] Module system: `ISnapricotModule`, `IModuleBuilder`, `ModuleLoader`, `ModuleCatalog`
-- [x] In-process event bus with tests
-- [x] Shell: light theme, sidebar built from modules (apricot selection), lazy pages, tray icon (closing hides to tray)
-- [x] Brand colors as app resources (`BrandApricotDeepBrush`, `BrandPlumBrush`, `BrandTintBrush`, ...)
-- [x] Unit tests (13) and architecture tests (6) passing
-- [x] `--measure-startup` diagnostics switch
-- [x] CI workflow: build + test on Windows and macOS, Native AOT publish and startup measurement on Windows
-- [ ] Install the VS "Desktop development with C++" workload locally to verify the AOT build and its startup time
-- [x] Local git identity and `origin` set to the personal account (`waqasahmaddev`), the same as `flow`
-- [x] Public repo `waqasahmaddev/snapricot` created; first commit pushed by the owner (**the owner commits; agents don't**)
-- [x] CI green on the first push (Windows build+test, macOS build+test, Native AOT publish)
-- [ ] Record the first AOT startup, memory, and size numbers from the CI job summary in performance.md
-- [ ] Repo settings: protect `main`, add topics, enable Discussions, social preview image
-- [ ] Check domain availability (snapricot.app / snapricot.com); buy before the v1.0 launch, not now
+## What works now (Windows)
+
+- **Capture:** custom area (8 handles, move, nudge, exact W×H, aspect presets/lock, light toolbar: Save · Copy · Cancel),
+  active window, full screen. Hotkeys `Ctrl/Alt/Shift+PrtSc` plus laptop alternatives `Ctrl+Shift+1/2/3`; tray menu.
+- **Start from the app:** the main window is excluded from capture, the screen is frozen, an opaque overlay appears,
+  and the window hides behind it; it returns when the capture finishes (`IShellWindow.BeginCaptureAsync`).
+- **Overlay:** opaque, pixel-exact frozen image, no dim until an area exists (then 30%), normal arrow cursor, reused
+  windows (one per display). The magnifier is optional (off by default).
+- **Output:** Copy = clipboard + auto-save to the default folder; Save = dialog (name, folder, "Always save here").
+  PNG or JPG, never overwrites, optional "open folder after saving".
+- **Feedback:** notification (position setting, bottom right by default), optional shutter sound.
+- **Settings:** General / Save to / Hotkeys (record a new combination, conflict warning, reset); start with Windows
+  (opens in the tray); persisted in `%APPDATA%\Snapricot\settings.json`.
+- **Home screen:** capture tiles with live shortcuts, plus a Recent strip (12 newest, fixed-size wrapping thumbnails).
+- **Style:** light theme, square edges, flat full-width apricot sidebar selection, round toggles (see brand.md "Shape").
+
+## Open items
+
+- [ ] Owner to confirm: no black screen / text-cursor flash / Snapricot-in-shot with the final overlay flow.
+- [ ] Laptop: `Ctrl+PrtSc` may be swallowed by Windows ("Print screen opens screen capture"); the alternatives work.
+- [ ] Owner to delete test captures the agent made on the Desktop (`2026-10-09_16-07-18.png`, `2026-10-09_16-09-56.png`).
+- [ ] Install the VS "Desktop development with C++" workload to verify the AOT build locally (CI already builds it).
+- [ ] Record the first AOT startup / memory / size numbers from a CI job summary in performance.md (sign-in needed to view).
+- [ ] Repo settings: protect `main`, add topics, enable Discussions, social preview image.
+- [ ] Docs: `docs/architecture/dpi-and-multi-monitor.md` design note (roadmap item).
+- [ ] Check domain availability (snapricot.app / snapricot.com); buy before the v1.0 launch, not now.
+
+## Next steps (suggested order)
+
+1. **History module** (`Snapricot.Modules.History`): Today/Earlier grid, list/grid toggle, search, thumbnails cache;
+   the home screen's Recent strip links to it. Subscribe to `CaptureSaved` (no direct module references).
+2. **Editor module** (Phase 2): `IAnnotationTool` extension point, arrow/rectangle/text/highlighter/blur/steps/crop,
+   undo/redo; then show **Edit** in the overlay toolbar and Save dialog.
+3. Pin to screen (v1.1) and OCR (v1.1); then packaging with Velopack (ADR-0009) and code signing.
+
+## Testing aids (not in the repo)
+
+Scripts used this session live in the agent scratchpad and are disposable; the useful techniques are:
+- UI Automation (`SelectionItemPattern` / `InvokePattern` on the parent of a text element) to open pages and click tiles.
+- `PrintWindow(hwnd, PW_RENDERFULLCONTENT)` to screenshot only the app window (doesn't work for transparent windows).
+- End-to-end capture: click the tile via UIA, drag with `SetCursorPos` + `mouse_event`, press Enter, then check the
+  clipboard and the newest file. Overlay windows are now opaque, so `CopyFromScreen` sees them.
+
+## Decisions log (summary)
+
+ADRs 0001–0012 in [docs/adr](adr/README.md). Key product decisions this session: name Snapricot; Windows first;
+light theme with square edges; Icecream-style area selection ("Custom area"); Copy auto-saves; color picker dropped;
+PrtSc + laptop hotkeys; free/MIT now, open-core Pro later; public repo `waqasahmaddev/snapricot`.
 
 ## Known issues and notes
 
 - **Local Native AOT publish fails** with "Platform linker not found" until the C++ workload is installed.
-  The IL compilation step produced no AOT/trim warnings. CI runners already have the linker.
-- Debug (JIT) baseline on the dev machine: **~1.28 s to window open, ~90 MB working set**. This is not the release
-  number; budgets apply to the AOT build (see [performance](architecture/performance.md)).
-- The kickoff mockups use the old palette; [brand.md](product/brand.md) overrides them.
-- **Light theme decided:** white app, warm off-white sidebar, solid apricot selection, apricot tint on hover (see brand.md). The owner can still change these.
-- An **About** module was added (`Snapricot.Modules.About`). The 4 extra tests come from it being registered in the architecture tests (23 tests total).
+- Debug (JIT) baseline on the dev machine: ~1.3–1.8 s to window open, ~90 MB. Budgets apply to the AOT build.
+- Kickoff mockups used an older palette; [brand.md](product/brand.md) is the source of truth.
+- `PrintWindow` returns black for transparent windows: never use it to judge overlay rendering.
 
 ## Session log
 
-Newest first. One entry per session: what changed and what's next.
+The kickoff session (2026-10-09) entries below run oldest to newest from the "Brand refresh" entry
+downward; the bottom entry is the latest. Future sessions: add one entry per session at the bottom.
 
 ### 2026-10-09 (later): Brand refresh, hosting, and business plan
 - The first logo (orange square with corner brackets) looked too much like Icecream Screen Recorder. Replaced it with an
