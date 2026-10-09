@@ -6,6 +6,9 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- Settings page (General, Save to, Hotkeys) built from module-contributed tabs and sections; hotkey rebinding with conflict detection.
+- Start with Windows (opens in the tray), capture notification, optional shutter sound, PNG or JPG, open folder after saving.
+- Custom area editing (8 handles, move, nudge, exact size, aspect presets) and the Save dialog with "Always save here".
 - Solution scaffold: Core, Windows and macOS platform projects, Avalonia shell, Screenshot module.
 - Module system (`ISnapricotModule`, `IModuleBuilder`, `ModuleLoader`, `ModuleCatalog`).
 - In-process event bus with failure isolation.

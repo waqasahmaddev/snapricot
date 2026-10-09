@@ -13,4 +13,8 @@ public interface IModuleBuilder
     IModuleBuilder AddTrayItem(TrayItem item);
 
     IModuleBuilder AddHotkey(HotkeyBinding hotkey);
+
+    IModuleBuilder AddSettingsTab(SettingsTab tab);
+
+    IModuleBuilder AddSettingsSection(SettingsSection section);
 }

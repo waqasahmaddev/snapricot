@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Snapricot.Modules.Screenshot.Overlay.CustomAreaToolbar"
+             Cursor="Arrow">
+  <!-- Approved mockup: docs/product/design.md, "Custom area". Edit and Pin stay hidden until those features exist. -->
+  <UserControl.Styles>
+    <Style Selector="Button.icon, ToggleButton.icon">
+      <Setter Property="Width" Value="30" />
+      <Setter Property="Height" Value="30" />
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="Foreground" Value="{DynamicResource BrandPlumBrush}" />
+    </Style>
+    <Style Selector="Button.icon:pointerover /template/ ContentPresenter, ToggleButton.icon:pointerover /template/ ContentPresenter, ToggleButton.icon:checked /template/ ContentPresenter">
+      <Setter Property="Background" Value="{DynamicResource BrandTintBrush}" />
+      <Setter Property="Foreground" Value="{DynamicResource BrandTintTextBrush}" />
+    </Style>
+    <Style Selector="PathIcon">
+      <Setter Property="Width" Value="16" />
+      <Setter Property="Height" Value="16" />
+    </Style>
+    <Style Selector="TextBox.size">
+      <Setter Property="Width" Value="62" />
+      <Setter Property="MinHeight" Value="28" />
+      <Setter Property="Height" Value="28" />
+      <Setter Property="Padding" Value="6,4" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+  </UserControl.Styles>
+
+  <Border Background="White" BorderBrush="{DynamicResource ShellBorderBrush}" BorderThickness="1"
+          CornerRadius="10" Padding="6,4">
+    <StackPanel Orientation="Horizontal" Spacing="4">
+      <PathIcon Margin="4,0,0,0" Foreground="{DynamicResource BrandApricotDeepBrush}" VerticalAlignment="Center"
+                Data="M7,17V1H5V5H1V7H5V17A2,2 0 0,0 7,19H17V23H19V19H23V17M17,15H19V7C19,5.89 18.1,5 17,5H9V7H17V15Z" />
+      <TextBlock Text="Custom area" FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center" Margin="2,0,6,0"
+                 Foreground="{DynamicResource BrandPlumBrush}" />
+      <Border Width="1" Height="20" Background="{DynamicResource ShellBorderBrush}" VerticalAlignment="Center" />
+
+      <ComboBox x:Name="AspectBox" SelectedIndex="0" MinWidth="76" MinHeight="28" Height="28" FontSize="12"
+                VerticalAlignment="Center" ToolTip.Tip="Aspect ratio">
+        <ComboBoxItem Content="Free" />
+        <ComboBoxItem Content="16:9" />
+        <ComboBoxItem Content="4:3" />
+        <ComboBoxItem Content="1:1" />
+      </ComboBox>
+      <TextBox x:Name="WidthBox" Classes="size" VerticalAlignment="Center" ToolTip.Tip="Width in pixels" />
+      <TextBlock Text="×" VerticalAlignment="Center" Foreground="{DynamicResource ShellMutedTextBrush}" />
+      <TextBox x:Name="HeightBox" Classes="size" VerticalAlignment="Center" ToolTip.Tip="Height in pixels" />
+      <ToggleButton x:Name="LockButton" Classes="icon" VerticalAlignment="Center" ToolTip.Tip="Lock aspect ratio">
+        <PathIcon Data="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" />
+      </ToggleButton>
+
+      <Border Width="1" Height="20" Background="{DynamicResource ShellBorderBrush}" VerticalAlignment="Center" />
+
+      <Button x:Name="SaveButton" Classes="icon" VerticalAlignment="Center" ToolTip.Tip="Save as… (choose name and folder)">
+        <PathIcon Data="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
+      </Button>
+      <Button x:Name="CopyButton" Classes="accent" Height="30" Padding="10,0" CornerRadius="6" VerticalAlignment="Center"
+              ToolTip.Tip="Copy and save (Enter)">
+        <StackPanel Orientation="Horizontal" Spacing="6">
+          <PathIcon Width="14" Height="14"
+                    Data="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z" />
+          <TextBlock Text="Copy" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" />
+        </StackPanel>
+      </Button>
+      <Button x:Name="CancelButton" Classes="icon" VerticalAlignment="Center" ToolTip.Tip="Cancel (Esc)">
+        <PathIcon Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+      </Button>
+    </StackPanel>
+  </Border>
+</UserControl>

@@ -42,7 +42,7 @@ See [business-model.md](../plan/business-model.md).
 | Version | Platform | Features |
 |---|---|---|
 | **v1.0** | Windows | Region / window / full-screen capture, global hotkeys, tray, overlay with magnifier, copy and auto-save, annotation editor (arrow, rectangle, text, highlighter, blur/pixelate, numbered steps, crop), undo/redo, history, settings, auto-update |
-| **v1.1** | Windows | OCR (copy text from screen), pin a capture on top of other windows, color picker |
+| **v1.1** | Windows | OCR (copy text from screen), pin a capture on top of other windows |
 | **v1.2** | Windows | GIF and short screen recording |
 | **v2.0** | + macOS | ScreenCaptureKit capture, menu-bar app, permission onboarding, notarized build |
 | Later | Both | Scrolling capture, upload targets (Imgur/S3/Drive), image effects (backgrounds, rounded corners), plugin SDK |

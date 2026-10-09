@@ -54,7 +54,13 @@ public interface ISnapricotModule
 | `Services` | The module's own DI registrations |
 | `AddNavItem(NavItem)` | A sidebar page; the view is created on first open |
 | `AddTrayItem(TrayItem)` | An entry in the tray / menu-bar menu |
-| `AddHotkey(HotkeyBinding)` | A global hotkey with a default gesture (rebindable in Settings, Phase 3) |
+| `AddHotkey(HotkeyBinding)` | A global hotkey with a default gesture (user-rebindable in Settings → Hotkeys) |
+| `AddSettingsTab(SettingsTab)` | A tab on the Settings page (built-in ids in `SettingsTabs`: general, save-to, hotkeys) |
+| `AddSettingsSection(SettingsSection)` | A block of settings UI on any module's tab, stacked by order |
+
+`NavItem.Placement` puts an entry in the main list or the bottom group (Settings, About). The shell's own contributions
+(Settings page, General and Hotkeys tabs) are registered by an internal `ShellModule` through the same API.
+A section targeting an unknown tab fails at startup (`UnknownSettingsTabException`).
 
 `ModuleLoader.Load(services, modules)` runs each `Register`, rejects duplicate ids (`DuplicateContributionException`),
 sorts contributions, and registers a `ModuleCatalog` singleton the shell reads. Modules are listed explicitly in
@@ -69,7 +75,8 @@ sorts contributions, and registers a `ModuleCatalog` singleton the shell reads. 
 | `IAnnotationTool` | Phase 2 | An editor tool |
 | `IExportTarget` | later | Where captures go: disk, Imgur, S3, Drive |
 | `IImageEffect` | later | Post-processing: background frame, rounded corners, watermark |
-| Settings pages | Phase 3 | Per-module settings UI |
+| `SettingsSection` / `SettingsTab` | done | Per-module settings UI |
+| `ICaptureFeedback` | done (Screenshot) | Sound and notification after a capture |
 
 Rule of thumb: when a second module needs the same kind of hook, add an extension point to Core rather than a
 module-to-module dependency.
@@ -89,8 +96,16 @@ adds an entry, and the Editor module (subscribed) opens if the user chose Edit. 
 
 ## Platform abstraction (ADR-0007)
 
-`Snapricot.Core.Platform`: `IScreenCapture`, `IHotkeyService`, `IClipboardService` (more will follow: notifications,
-autostart, OCR engine). `AppHost` registers exactly one platform using `SNAPRICOT_WINDOWS` / `SNAPRICOT_MACOS`,
+`Snapricot.Core.Platform`: `IScreenCapture`, `IDesktopService`, `IHotkeyService`, `IClipboardService`,
+`IAutostartService` (Run key), `IShellService` (show in folder / open), `ISoundService` (shutter sound, synthesized).
+Coming later: OCR engine.
+
+## Hotkeys and settings
+
+- `HotkeyManager` (Core) registers every `HotkeyBinding` with the user's override or the default, reports live status
+  (Active / Unavailable / Invalid / Suspended), rebinds with rollback if the new combination is taken, and suspends all
+  hotkeys while a new one is recorded. Overrides persist in the `"hotkeys"` settings section.
+- `ISettingsStore` (Core) persists one JSON section per module in `%APPDATA%\Snapricot\settings.json` (ADR-0012). `AppHost` registers exactly one platform using `SNAPRICOT_WINDOWS` / `SNAPRICOT_MACOS`,
 which the App csproj defines depending on the build OS.
 
 ## Shell

@@ -6,7 +6,7 @@
 ## Principles
 
 1. **The free version stays genuinely useful forever.** Everything planned for v1.x (capture, editor, history, OCR,
-   pin, color picker) stays free. Nothing free gets moved behind a paywall later.
+   pin) stays free. Nothing free gets moved behind a paywall later.
 2. **Pro adds new things, mostly ones that cost money to run or take a lot of effort to build.**
 3. **No ads, no telemetry, no nagging.** A single "Get Pro" item in the About and Settings pages is enough.
 

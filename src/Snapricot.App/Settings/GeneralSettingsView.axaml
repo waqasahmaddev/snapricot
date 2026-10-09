@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:settings="using:Snapricot.App.Settings"
+             x:Class="Snapricot.App.Settings.GeneralSettingsView"
+             x:DataType="settings:GeneralSettingsViewModel">
+  <StackPanel Spacing="18">
+    <Grid ColumnDefinitions="*,Auto">
+      <StackPanel Spacing="2">
+        <TextBlock Text="Start with Windows" />
+        <TextBlock Classes="description" Text="Snapricot waits in the tray, so hotkeys always work." />
+      </StackPanel>
+      <ToggleSwitch Grid.Column="1" IsChecked="{Binding StartWithWindows}" OnContent="" OffContent="" MinWidth="0" />
+    </Grid>
+    <TextBlock Text="{Binding Error}" FontSize="12" Foreground="#A32D2D" TextWrapping="Wrap"
+               IsVisible="{Binding Error, Converter={x:Static ObjectConverters.IsNotNull}}" />
+    <Grid ColumnDefinitions="*,Auto">
+      <StackPanel Spacing="2">
+        <TextBlock Text="Closing the window keeps Snapricot in the tray" />
+        <TextBlock Classes="description" Text="Use Quit in the tray menu to exit completely." />
+      </StackPanel>
+      <ToggleSwitch Grid.Column="1" IsChecked="{Binding CloseToTray}" OnContent="" OffContent="" MinWidth="0" />
+    </Grid>
+  </StackPanel>
+</UserControl>

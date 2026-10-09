@@ -17,12 +17,16 @@
         <DataTemplate x:DataType="views:CaptureModeItem">
           <Border Width="220" Margin="0,0,12,12" Padding="16" CornerRadius="10"
                   BorderThickness="1" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
-            <StackPanel Spacing="6">
+            <StackPanel Spacing="8">
               <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
               <TextBlock Text="{Binding Description}" Opacity="0.7" TextWrapping="Wrap" />
-              <Border HorizontalAlignment="Left" Padding="6,2" CornerRadius="4" Background="{DynamicResource BrandTintBrush}">
-                <TextBlock Text="{Binding Gesture}" Foreground="{DynamicResource BrandTintTextBrush}" FontFamily="Consolas,Menlo,monospace" FontSize="12" />
-              </Border>
+              <Grid ColumnDefinitions="Auto,*,Auto">
+                <Border Padding="6,2" CornerRadius="4" VerticalAlignment="Center" Background="{DynamicResource BrandTintBrush}">
+                  <TextBlock Text="{Binding Gesture}" Foreground="{DynamicResource BrandTintTextBrush}"
+                             FontFamily="Consolas,Menlo,monospace" FontSize="12" />
+                </Border>
+                <Button Grid.Column="2" Content="Capture" Command="{Binding Capture}" Classes="accent" />
+              </Grid>
             </StackPanel>
           </Border>
         </DataTemplate>

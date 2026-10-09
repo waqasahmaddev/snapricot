@@ -22,5 +22,6 @@ public sealed class AboutModule : ISnapricotModule
             Title: "About",
             IconPath: InfoIcon,
             Order: 1000,
-            CreateView: _ => new AboutPage()));
+            CreateView: _ => new AboutPage(),
+            Placement: NavPlacement.Bottom));
 }

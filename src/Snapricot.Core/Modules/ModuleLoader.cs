@@ -28,11 +28,19 @@ public static class ModuleLoader
             module.Register(builder);
         }
 
+        var tabIds = builder.SettingsTabs.Select(t => t.Id).ToHashSet(StringComparer.Ordinal);
+        if (builder.SettingsSections.FirstOrDefault(s => !tabIds.Contains(s.TabId)) is { } orphan)
+        {
+            throw new UnknownSettingsTabException(orphan.Id, orphan.TabId);
+        }
+
         var catalog = new ModuleCatalog(
             infos,
             [.. builder.NavItems.OrderBy(i => i.Order).ThenBy(i => i.Title, StringComparer.Ordinal)],
             [.. builder.TrayItems.OrderBy(i => i.Order).ThenBy(i => i.Title, StringComparer.Ordinal)],
-            [.. builder.Hotkeys]);
+            [.. builder.Hotkeys],
+            [.. builder.SettingsTabs.OrderBy(t => t.Order).ThenBy(t => t.Title, StringComparer.Ordinal)],
+            [.. builder.SettingsSections.OrderBy(s => s.Order).ThenBy(s => s.Id, StringComparer.Ordinal)]);
 
         services.AddSingleton(catalog);
         return catalog;
@@ -50,11 +58,19 @@ public static class ModuleLoader
 
         public List<HotkeyBinding> Hotkeys { get; } = [];
 
+        public List<SettingsTab> SettingsTabs { get; } = [];
+
+        public List<SettingsSection> SettingsSections { get; } = [];
+
         public IModuleBuilder AddNavItem(NavItem item) => Add(NavItems, item, "nav item", item.Id);
 
         public IModuleBuilder AddTrayItem(TrayItem item) => Add(TrayItems, item, "tray item", item.Id);
 
         public IModuleBuilder AddHotkey(HotkeyBinding hotkey) => Add(Hotkeys, hotkey, "hotkey", hotkey.Id);
+
+        public IModuleBuilder AddSettingsTab(SettingsTab tab) => Add(SettingsTabs, tab, "settings tab", tab.Id);
+
+        public IModuleBuilder AddSettingsSection(SettingsSection section) => Add(SettingsSections, section, "settings section", section.Id);
 
         private ModuleBuilder Add<T>(List<T> list, T item, string kind, string id)
         {

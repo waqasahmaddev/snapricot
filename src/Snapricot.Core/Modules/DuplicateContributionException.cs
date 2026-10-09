@@ -8,3 +8,12 @@ public sealed class DuplicateContributionException(string kind, string id)
 
     public string Id { get; } = id;
 }
+
+/// <summary>Thrown at startup when a settings section targets a tab no module registered.</summary>
+public sealed class UnknownSettingsTabException(string sectionId, string tabId)
+    : InvalidOperationException($"Settings section '{sectionId}' targets unknown tab '{tabId}'. Register the tab with AddSettingsTab.")
+{
+    public string SectionId { get; } = sectionId;
+
+    public string TabId { get; } = tabId;
+}

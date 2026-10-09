@@ -1,0 +1,27 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="Snapricot.Modules.Screenshot.Feedback.CaptureToast"
+        Width="340" SizeToContent="Height"
+        WindowDecorations="None" Topmost="True" ShowInTaskbar="False" ShowActivated="False" CanResize="False"
+        Background="Transparent" TransparencyLevelHint="Transparent"
+        WindowStartupLocation="Manual">
+  <!-- "Copied to clipboard" notification: bottom-right, never takes focus, closes itself after a few seconds. -->
+  <Border Margin="6" Padding="12" CornerRadius="12" Background="White"
+          BorderBrush="{DynamicResource ShellBorderBrush}" BorderThickness="1" Cursor="Hand">
+    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+      <Border Width="64" Height="44" CornerRadius="6" ClipToBounds="True" VerticalAlignment="Center"
+              BorderBrush="{DynamicResource ShellBorderBrush}" BorderThickness="1" Background="{DynamicResource ShellSidebarBrush}">
+        <Image x:Name="Thumbnail" Stretch="UniformToFill" />
+      </Border>
+      <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+        <TextBlock x:Name="TitleText" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource BrandPlumBrush}" />
+        <TextBlock x:Name="DetailText" FontSize="12" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource ShellMutedTextBrush}" />
+      </StackPanel>
+      <Button x:Name="CloseButton" Grid.Column="2" Padding="4" Background="Transparent" BorderThickness="0"
+              VerticalAlignment="Top" ToolTip.Tip="Dismiss">
+        <PathIcon Width="12" Height="12" Foreground="{DynamicResource ShellMutedTextBrush}"
+                  Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+      </Button>
+    </Grid>
+  </Border>
+</Window>

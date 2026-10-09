@@ -11,6 +11,12 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
+    /// <summary>Asked when the user closes the window: true keeps Snapricot in the tray, false quits.</summary>
+    public Func<bool> KeepInTrayOnClose { get; set; } = () => true;
+
+    /// <summary>Raised when closing should quit the app (the "keep in tray" setting is off).</summary>
+    public event Action? QuitRequested;
+
     public void ShowAndActivate()
     {
         Show();
@@ -26,11 +32,17 @@ public partial class MainWindow : Window
 
     protected override void OnClosing(WindowClosingEventArgs e)
     {
-        // Closing the window keeps Snapricot running in the tray.
         if (!_allowClose)
         {
             e.Cancel = true;
-            Hide();
+            if (KeepInTrayOnClose())
+            {
+                Hide();
+            }
+            else
+            {
+                QuitRequested?.Invoke();
+            }
         }
 
         base.OnClosing(e);

@@ -12,6 +12,7 @@ internal static class InstalledModules
 {
     public static IReadOnlyList<ISnapricotModule> All { get; } =
     [
+        new ShellModule(),
         new ScreenshotModule(),
         new AboutModule(),
     ];

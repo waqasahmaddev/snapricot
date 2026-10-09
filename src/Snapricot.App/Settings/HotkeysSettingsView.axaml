@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:settings="using:Snapricot.App.Settings"
+             x:Class="Snapricot.App.Settings.HotkeysSettingsView"
+             x:DataType="settings:HotkeysSettingsViewModel"
+             Focusable="True">
+  <StackPanel Spacing="14">
+    <TextBlock Classes="description" Text="Global shortcuts work in any app. Click Change, then press the new combination (Esc cancels)." />
+    <ItemsControl ItemsSource="{Binding Rows}">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="settings:HotkeyRowViewModel">
+          <Border BorderBrush="{DynamicResource ShellBorderBrush}" BorderThickness="0,0,0,1" Padding="0,10">
+            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+              <StackPanel VerticalAlignment="Center" Spacing="2">
+                <TextBlock Text="{Binding Title}" />
+                <TextBlock Text="{Binding Warning}" FontSize="12" Foreground="#A32D2D" TextWrapping="Wrap"
+                           IsVisible="{Binding Warning, Converter={x:Static ObjectConverters.IsNotNull}}" />
+              </StackPanel>
+              <Border Grid.Column="1" Padding="8,3" CornerRadius="5" VerticalAlignment="Center" Background="{DynamicResource BrandTintBrush}">
+                <TextBlock Text="{Binding Gesture}" FontFamily="Consolas,Menlo,monospace" FontSize="12"
+                           Foreground="{DynamicResource BrandTintTextBrush}" />
+              </Border>
+              <Button Grid.Column="2" Content="{Binding ButtonText}" Command="{Binding ToggleRecordingCommand}"
+                      MinWidth="80" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <Button Content="Reset to defaults" Command="{Binding ResetCommand}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
+  </StackPanel>
+</UserControl>

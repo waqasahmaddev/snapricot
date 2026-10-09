@@ -27,7 +27,7 @@ public sealed class OcrModule : ISnapricotModule
         builder
             .AddNavItem(new NavItem("snapricot.ocr.page", "Copy text", IconPath: "M...", Order: 300,
                 CreateView: sp => new OcrPage { DataContext = sp.GetRequiredService<OcrPageViewModel>() }))
-            .AddHotkey(new HotkeyBinding("snapricot.ocr.capture", "Copy text from screen", "Ctrl+Shift+T",
+            .AddHotkey(new HotkeyBinding("snapricot.ocr.capture", "Copy text from screen", "Ctrl+Alt+PrtSc",
                 (sp, ct) => sp.GetRequiredService<OcrCapture>().RunAsync(ct)));
     }
 }

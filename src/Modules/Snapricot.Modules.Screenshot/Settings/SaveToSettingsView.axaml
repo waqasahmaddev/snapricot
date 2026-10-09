@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:settings="using:Snapricot.Modules.Screenshot.Settings"
+             x:Class="Snapricot.Modules.Screenshot.Settings.SaveToSettingsView"
+             x:DataType="settings:SaveToSettingsViewModel">
+  <StackPanel Spacing="20">
+    <StackPanel Spacing="6">
+      <TextBlock Classes="label" Text="Save screenshots to" />
+      <Border CornerRadius="8" Padding="10,4,4,4" BorderThickness="1"
+              BorderBrush="{DynamicResource ShellBorderBrush}" Background="{DynamicResource ShellSidebarBrush}">
+        <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="8">
+          <PathIcon Width="16" Height="16" Foreground="{DynamicResource BrandApricotDeepBrush}" VerticalAlignment="Center"
+                    Data="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z" />
+          <TextBlock Grid.Column="1" Text="{Binding Folder}" VerticalAlignment="Center" TextTrimming="PrefixCharacterEllipsis"
+                     ToolTip.Tip="{Binding Folder}" Foreground="{DynamicResource BrandPlumBrush}" />
+          <Border Grid.Column="2" Padding="6,1" CornerRadius="4" VerticalAlignment="Center" IsVisible="{Binding IsDefaultFolder}"
+                  Background="{DynamicResource BrandTintBrush}">
+            <TextBlock Text="Default" FontSize="11" Foreground="{DynamicResource BrandTintTextBrush}" />
+          </Border>
+          <Button x:Name="ChangeButton" Grid.Column="3" Content="Change…" FontSize="12" VerticalContentAlignment="Center" />
+          <Button Grid.Column="4" Content="Reset" FontSize="12" VerticalContentAlignment="Center"
+                  Command="{Binding ResetFolderCommand}" ToolTip.Tip="Back to Pictures\Snapricot" />
+        </Grid>
+      </Border>
+      <TextBlock Classes="description" Text="{Binding FolderNote}" IsVisible="{Binding FolderNote, Converter={x:Static ObjectConverters.IsNotNull}}" />
+    </StackPanel>
+
+    <StackPanel Spacing="6">
+      <TextBlock Classes="label" Text="File name" />
+      <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+        <TextBox Text="{Binding Pattern}" />
+        <ComboBox Grid.Column="1" ItemsSource="{Binding Formats}" SelectedIndex="{Binding FormatIndex}" MinWidth="90" VerticalAlignment="Stretch" />
+      </Grid>
+      <TextBlock Classes="description">
+        <Run Text="Example: " /><Run Text="{Binding Example}" FontFamily="Consolas,Menlo,monospace" Foreground="{DynamicResource BrandPlumBrush}" />
+        <Run Text="   Tokens: {date}  {time}  {ms}" />
+      </TextBlock>
+      <TextBlock Text="{Binding PatternError}" FontSize="12" Foreground="#A32D2D"
+                 IsVisible="{Binding PatternError, Converter={x:Static ObjectConverters.IsNotNull}}" />
+    </StackPanel>
+
+    <Grid ColumnDefinitions="*,Auto">
+      <StackPanel Spacing="2">
+        <TextBlock Text="Copy also saves automatically" />
+        <TextBlock Classes="description" Text="Every capture lands in the folder above, and in History." />
+      </StackPanel>
+      <ToggleSwitch Grid.Column="1" IsChecked="{Binding AutoSaveOnCopy}" OnContent="" OffContent="" MinWidth="0" />
+    </Grid>
+    <Grid ColumnDefinitions="*,Auto">
+      <StackPanel Spacing="2">
+        <TextBlock Text="Open the folder after saving" />
+        <TextBlock Classes="description" Text="Shows the file in File Explorer." />
+      </StackPanel>
+      <ToggleSwitch Grid.Column="1" IsChecked="{Binding OpenFolderAfterSave}" OnContent="" OffContent="" MinWidth="0" />
+    </Grid>
+  </StackPanel>
+</UserControl>

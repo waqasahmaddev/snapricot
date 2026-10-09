@@ -29,3 +29,10 @@ dotnet_naming_symbols.private_fields.applicable_kinds = field
 dotnet_naming_symbols.private_fields.applicable_accessibilities = private
 dotnet_naming_style.camel_underscore.capitalization = camel_case
 dotnet_naming_style.camel_underscore.required_prefix = _
+
+# Win32 interop deliberately mirrors the Windows SDK names (WM_HOTKEY, RECT, MONITORINFOEXW, ...)
+# so they can be looked up in Microsoft's docs. Naming rules don't apply here (Rider/ReSharper and Roslyn).
+[src/Snapricot.Platform.Windows/Interop/*.cs]
+resharper_inconsistent_naming_highlighting = none
+dotnet_diagnostic.IDE1006.severity = none
+dotnet_diagnostic.CA1707.severity = none

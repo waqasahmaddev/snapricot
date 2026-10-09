@@ -54,31 +54,44 @@ jobs:
       - name: Publish (Native AOT)
         run: dotnet publish src/Snapricot.App -c Release -r win-x64 -o artifacts/publish/win-x64
 
+      # Budgets are reported, not gated: CI runners are noisy (docs/architecture/performance.md).
+      # The step itself must succeed, so a broken measurement is visible instead of silently skipped.
       - name: Measure startup
         shell: pwsh
-        continue-on-error: true # CI runners are noisy: report, don't gate (docs/architecture/performance.md)
         run: |
-          $exe = "artifacts/publish/win-x64/Snapricot.exe"
+          $ErrorActionPreference = 'Stop'
+          $dir = "artifacts/publish/win-x64"
+          $exe = Join-Path $dir "Snapricot.exe"
           $result = Join-Path $env:RUNNER_TEMP "startup.json"
           $runs = foreach ($i in 1..3) {
-            $p = Start-Process -FilePath $exe -ArgumentList "--measure-startup", $result -PassThru
+            Remove-Item $result -ErrorAction SilentlyContinue
+            $p = Start-Process -FilePath $exe -ArgumentList "--measure-startup", "`"$result`"" -PassThru
             if (-not $p.WaitForExit(30000)) { $p.Kill(); throw "Startup measurement timed out" }
-            Get-Content $result | ConvertFrom-Json
+            if (-not (Test-Path $result)) { throw "Run $i wrote no result (exit code $($p.ExitCode))" }
+            $run = Get-Content $result -Raw | ConvertFrom-Json
+            Write-Host "run ${i}: $($run.startupMs) ms, $($run.workingSetMb) MB"
+            $run
           }
           $best = $runs | Sort-Object startupMs | Select-Object -First 1
-          $sizeMb = [math]::Round((Get-Item $exe).Length / 1MB, 1)
-          @(
+          $exeMb = [math]::Round((Get-Item $exe).Length / 1MB, 1)
+          $shipMb = [math]::Round(((Get-ChildItem $dir -File -Recurse | Where-Object Extension -ne '.pdb' | Measure-Object Length -Sum).Sum) / 1MB, 1)
+          $table = @(
             "### Performance (Native AOT, win-x64)"
             ""
             "| Metric | Value | Budget |"
             "|---|---|---|"
             "| Startup (best of 3) | $($best.startupMs) ms | < 300 ms |"
             "| Working set | $($best.workingSetMb) MB | < 60 MB |"
-            "| Snapricot.exe size | $sizeMb MB | |"
-          ) | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+            "| Snapricot.exe | $exeMb MB | |"
+            "| Shipped files (no .pdb) | $shipMb MB | < 25 MB installer |"
+          )
+          $table | ForEach-Object { Write-Host $_ }
+          $table | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: snapricot-win-x64
-          path: artifacts/publish/win-x64
+          path: |
+            artifacts/publish/win-x64
+            !artifacts/publish/win-x64/**/*.pdb
           retention-days: 14

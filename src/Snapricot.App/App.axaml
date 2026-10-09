@@ -29,6 +29,24 @@
         <ResourceDictionary x:Key="Light">
           <SolidColorBrush x:Key="BrandTintBrush" Color="#FFF1E4" />
           <SolidColorBrush x:Key="BrandTintTextBrush" Color="#9A3F14" />
+
+          <!-- Light, outlined secondary buttons (Fluent's default grey felt heavy); accent buttons are unchanged. -->
+          <SolidColorBrush x:Key="ButtonBackground" Color="#FFFFFF" />
+          <SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="#FFF1E4" />
+          <SolidColorBrush x:Key="ButtonBackgroundPressed" Color="#FBE3D0" />
+          <SolidColorBrush x:Key="ButtonBorderBrush" Color="#E7DED5" />
+          <SolidColorBrush x:Key="ButtonBorderBrushPointerOver" Color="#D9622B" />
+          <SolidColorBrush x:Key="ButtonBorderBrushPressed" Color="#D9622B" />
+          <SolidColorBrush x:Key="ButtonForeground" Color="#2E2240" />
+          <SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="#9A3F14" />
+          <SolidColorBrush x:Key="ButtonForegroundPressed" Color="#9A3F14" />
+          <Thickness x:Key="ButtonBorderThemeThickness">1</Thickness>
+
+          <!-- Softer "off" toggles: warm grey instead of black. -->
+          <SolidColorBrush x:Key="ToggleSwitchKnobFillOff" Color="#8A7F76" />
+          <SolidColorBrush x:Key="ToggleSwitchKnobFillOffPointerOver" Color="#6F655D" />
+          <SolidColorBrush x:Key="ToggleSwitchStrokeOff" Color="#CFC5BB" />
+          <SolidColorBrush x:Key="ToggleSwitchStrokeOffPointerOver" Color="#B8ADA3" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
           <SolidColorBrush x:Key="BrandTintBrush" Color="#4A2A1C" />
@@ -45,6 +63,22 @@
         <ColorPaletteResources x:Key="Dark" Accent="#D9622B" />
       </FluentTheme.Palettes>
     </FluentTheme>
+
+    <!-- Shared text styles for settings pages (modules use these classes too). -->
+    <Style Selector="TextBlock.description">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Foreground" Value="{DynamicResource ShellMutedTextBrush}" />
+    </Style>
+    <Style Selector="TextBlock.label">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="{DynamicResource ShellMutedTextBrush}" />
+    </Style>
+
+    <!-- Every Snapricot window (including module dialogs) gets the app icon; modules don't need to know the asset. -->
+    <Style Selector="Window">
+      <Setter Property="Icon" Value="/Assets/snapricot.png" />
+    </Style>
 
     <!-- Sidebar navigation: apricot tint on hover, solid apricot when selected -->
     <Style Selector="ListBox.nav">

@@ -17,7 +17,7 @@ A fast, free, open-source screenshot and annotation tool. <i>(pronounced SNAP-ri
 - Capture overlay with magnifier and pixel-exact selection across multi-monitor, mixed-DPI setups
 - Annotation editor: arrows, shapes, text, highlighter, blur/pixelate, numbered steps, crop
 - Instant copy to clipboard, auto-save, and a searchable history
-- Later: OCR (copy text from screen), pin to screen, color picker, GIF recording, macOS
+- Later: OCR (copy text from screen), pin to screen, GIF recording, macOS
 
 ## Built to be light
 

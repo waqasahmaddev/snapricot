@@ -35,7 +35,18 @@ or rotate it. On busy photos, place it on a Plum or white card.
 | 🍑 | **Flesh** | `#FFC98F` | Logo slice; accent text on dark tints |
 | 🟢 | **Leaf** | `#3E9B6A` | Logo leaf; success states |
 | 🟤 | **Stem** | `#6B4A2B` | Logo stem only |
-| 🟣 | **Plum** | `#2E2240` | Sidebar, dark brand surfaces, website footer, social images |
+| 🟣 | **Plum** | `#2E2240` | Primary text and icons in the app; dark brand surfaces (website footer, social images) |
+
+App surfaces: the app uses a **light theme**, white with apricot for anything active or selected (decided 2026-10-09):
+
+| Key | Value | Use |
+|---|---|---|
+| `ShellBackgroundBrush` | `#FFFFFF` | Main content area |
+| `ShellSidebarBrush` | `#FCF8F4` | Sidebar (warm off-white) |
+| `ShellBorderBrush` | `#F0E6DC` | Sidebar edge, dividers |
+| `ShellMutedTextBrush` | `#8A7F76` | Version label, captions |
+| Selected nav item | `BrandApricotDeepBrush` fill + white text | `ListBox.nav` style in `App.axaml` |
+| Hover nav item | `BrandTintBrush` fill + `BrandTintTextBrush` text | `ListBox.nav` style in `App.axaml` |
 
 UI tints (theme-aware, in `App.axaml`):
 

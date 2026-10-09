@@ -4,12 +4,19 @@
         x:Class="Snapricot.App.Shell.MainWindow"
         x:DataType="shell:MainWindowViewModel"
         Title="Snapricot"
-        Icon="/Assets/snapricot.png"
-        Width="960" Height="600" MinWidth="720" MinHeight="480"
+        Width="960" Height="620" MinWidth="720" MinHeight="480"
         Background="{StaticResource ShellBackgroundBrush}"
         WindowStartupLocation="CenterScreen">
-  <Grid ColumnDefinitions="220,*">
+  <Window.Resources>
+    <DataTemplate x:Key="NavItemTemplate" x:DataType="shell:NavItemViewModel">
+      <StackPanel Orientation="Horizontal" Spacing="12">
+        <PathIcon Data="{Binding Icon}" Width="18" Height="18" />
+        <TextBlock Text="{Binding Title}" VerticalAlignment="Center" />
+      </StackPanel>
+    </DataTemplate>
+  </Window.Resources>
 
+  <Grid ColumnDefinitions="220,*">
     <!-- Sidebar: items come from the module catalog; selection styling lives in App.axaml (ListBox.nav) -->
     <Border Background="{StaticResource ShellSidebarBrush}"
             BorderBrush="{StaticResource ShellBorderBrush}" BorderThickness="0,0,1,0">
@@ -20,19 +27,14 @@
                      Foreground="{StaticResource BrandPlumBrush}" />
         </StackPanel>
 
-        <TextBlock DockPanel.Dock="Bottom" Text="{Binding VersionText}" FontSize="11" Margin="18,12"
+        <TextBlock DockPanel.Dock="Bottom" Text="{Binding VersionText}" FontSize="11" Margin="18,6,18,12"
                    Foreground="{StaticResource ShellMutedTextBrush}" />
 
-        <ListBox Classes="nav" ItemsSource="{Binding NavItems}" SelectedItem="{Binding SelectedItem}">
-          <ListBox.ItemTemplate>
-            <DataTemplate x:DataType="shell:NavItemViewModel">
-              <StackPanel Orientation="Horizontal" Spacing="12">
-                <PathIcon Data="{Binding Icon}" Width="18" Height="18" />
-                <TextBlock Text="{Binding Title}" VerticalAlignment="Center" />
-              </StackPanel>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
+        <ListBox DockPanel.Dock="Bottom" Classes="nav" ItemsSource="{Binding BottomItems}"
+                 SelectedItem="{Binding SelectedBottomItem}" ItemTemplate="{StaticResource NavItemTemplate}" />
+
+        <ListBox Classes="nav" ItemsSource="{Binding TopItems}"
+                 SelectedItem="{Binding SelectedTopItem}" ItemTemplate="{StaticResource NavItemTemplate}" />
       </DockPanel>
     </Border>
 

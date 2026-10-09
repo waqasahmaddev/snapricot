@@ -52,7 +52,8 @@ Without it, `dotnet build`/`test`/`run` all still work; only the AOT publish fai
 6. **Never block the UI thread.** Capture, encode, and save off-thread; copy to the clipboard first.
 7. **Every significant decision gets an ADR** (copy `docs/adr/0000-template.md`, take the next number, add it to the index).
 8. Architecture tests in `tests/Snapricot.Architecture.Tests` enforce rules 1–2. Register new modules there.
-9. **Agents never commit or push.** The owner commits. The repo belongs to the personal GitHub account `waqasahmaddev`
+9. **Settings records use `{ get; set; }`, never `init`** (source-generated JSON drops `init` defaults; ADR-0012).
+10. **Agents never commit or push.** The owner commits. The repo belongs to the personal GitHub account `waqasahmaddev`
    (local identity and `origin` are preconfigured); never use the office account the `gh` CLI may be logged in as.
 
 ## Code conventions

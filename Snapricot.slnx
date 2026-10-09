@@ -12,6 +12,7 @@
   <Folder Name="/tests/">
     <Project Path="tests/Snapricot.Architecture.Tests/Snapricot.Architecture.Tests.csproj" />
     <Project Path="tests/Snapricot.Core.Tests/Snapricot.Core.Tests.csproj" />
+    <Project Path="tests/Snapricot.Modules.Screenshot.Tests/Snapricot.Modules.Screenshot.Tests.csproj" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path="Directory.Build.props" />

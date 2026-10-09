@@ -103,4 +103,47 @@ public sealed class ModuleLoaderTests
         Assert.Single(catalog.NavItems);
         Assert.Single(catalog.TrayItems);
     }
+
+    [Fact]
+    public void Load_CollectsSettingsTabsAndSections_SortedByOrder()
+    {
+        var module = new TestModule("test.a", b => b
+            .AddSettingsTab(new SettingsTab("hotkeys", "Hotkeys", 800))
+            .AddSettingsTab(new SettingsTab("general", "General", 0))
+            .AddSettingsSection(new SettingsSection("general", "late", 200, _ => new object()))
+            .AddSettingsSection(new SettingsSection("general", "early", 100, _ => new object()))
+            .AddSettingsSection(new SettingsSection("hotkeys", "keys", 100, _ => new object())));
+
+        var catalog = ModuleLoader.Load(new ServiceCollection(), [module]);
+
+        Assert.Equal(["general", "hotkeys"], catalog.SettingsTabs.Select(t => t.Id));
+        Assert.Equal(["early", "late"], catalog.SectionsFor("general").Select(s => s.Id));
+    }
+
+    [Fact]
+    public void Load_SectionsMayTargetATabFromAnotherModule()
+    {
+        var shell = new TestModule("shell", b => b.AddSettingsTab(new SettingsTab("general", "General", 0)));
+        var feature = new TestModule("feature", b => b.AddSettingsSection(new SettingsSection("general", "feature.section", 100, _ => new object())));
+
+        var catalog = ModuleLoader.Load(new ServiceCollection(), [feature, shell]);
+
+        Assert.Single(catalog.SectionsFor("general"));
+    }
+
+    [Fact]
+    public void Load_SectionForUnknownTab_Throws()
+    {
+        var module = new TestModule("test.a", b => b.AddSettingsSection(new SettingsSection("nowhere", "lost", 1, _ => new object())));
+
+        var ex = Assert.Throws<UnknownSettingsTabException>(() => ModuleLoader.Load(new ServiceCollection(), [module]));
+
+        Assert.Equal(("lost", "nowhere"), (ex.SectionId, ex.TabId));
+    }
+
+    [Fact]
+    public void NavItem_DefaultsToTopPlacement()
+    {
+        Assert.Equal(NavPlacement.Top, Nav("x", 1).Placement);
+    }
 }

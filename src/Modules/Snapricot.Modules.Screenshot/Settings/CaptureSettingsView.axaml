@@ -1,0 +1,29 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:settings="using:Snapricot.Modules.Screenshot.Settings"
+             x:Class="Snapricot.Modules.Screenshot.Settings.CaptureSettingsView"
+             x:DataType="settings:CaptureSettingsViewModel">
+  <StackPanel Spacing="18">
+    <Grid ColumnDefinitions="*,Auto">
+      <StackPanel Spacing="2">
+        <TextBlock Text="Area selection magnifier" />
+        <TextBlock Classes="description" Text="Shows a zoomed pixel view while you draw an area." />
+      </StackPanel>
+      <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowMagnifier}" OnContent="" OffContent="" MinWidth="0" />
+    </Grid>
+    <Grid ColumnDefinitions="*,Auto">
+      <StackPanel Spacing="2">
+        <TextBlock Text="Show a notification after capture" />
+        <TextBlock Classes="description" Text="&quot;Copied to clipboard&quot; with a thumbnail. Click it to show the file in its folder." />
+      </StackPanel>
+      <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowNotification}" OnContent="" OffContent="" MinWidth="0" />
+    </Grid>
+    <Grid ColumnDefinitions="*,Auto">
+      <StackPanel Spacing="2">
+        <TextBlock Text="Play a capture sound" />
+        <TextBlock Classes="description" Text="A short shutter sound when a screenshot is taken." />
+      </StackPanel>
+      <ToggleSwitch Grid.Column="1" IsChecked="{Binding PlaySound}" OnContent="" OffContent="" MinWidth="0" />
+    </Grid>
+  </StackPanel>
+</UserControl>

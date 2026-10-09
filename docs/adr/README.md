@@ -15,6 +15,8 @@ An ADR captures one significant decision: the context, what we chose, and what i
 | [0005](0005-in-process-event-bus.md) | Modules communicate through an in-process event bus | Accepted | 2026-10-09 |
 | [0006](0006-native-aot-and-performance-budgets.md) | Native AOT and performance budgets | Accepted | 2026-10-09 |
 | [0007](0007-platform-abstraction.md) | OS services behind platform interfaces | Accepted | 2026-10-09 |
-| [0008](0008-windows-capture-api.md) | Windows.Graphics.Capture with GDI fallback | Proposed | 2026-10-09 |
+| [0008](0008-windows-capture-api.md) | GDI BitBlt first, Windows.Graphics.Capture as fallback | Accepted | 2026-10-09 |
 | [0009](0009-velopack-packaging.md) | Velopack for installers and auto-update | Proposed | 2026-10-09 |
 | [0010](0010-open-core-pro-edition.md) | Open-core model for a possible Pro edition | Proposed | 2026-10-09 |
+| [0011](0011-printscreen-default-hotkeys.md) | Default hotkeys use PrintScreen combinations | Accepted | 2026-10-09 |
+| [0012](0012-json-settings-store.md) | User settings in one JSON file, one section per module | Accepted | 2026-10-09 |
