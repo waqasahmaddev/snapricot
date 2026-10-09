@@ -21,6 +21,9 @@ public sealed record RegionSelection(FrozenDisplay Display, PixelBounds Bounds, 
 /// <summary>Shows the selection UI over frozen display images. Separate from the coordinator so capture logic is testable.</summary>
 public interface IRegionSelector
 {
-    /// <summary>Returns <see langword="null"/> when the user cancels.</summary>
-    Task<RegionSelection?> SelectAsync(IReadOnlyList<FrozenDisplay> displays, CancellationToken cancellationToken);
+    /// <summary>
+    /// Shows the overlay and waits for the user; returns <see langword="null"/> when they cancel.
+    /// <paramref name="onShown"/> runs once the overlay covers the screen (e.g. to hide the main window behind it).
+    /// </summary>
+    Task<RegionSelection?> SelectAsync(IReadOnlyList<FrozenDisplay> displays, Action? onShown, CancellationToken cancellationToken);
 }

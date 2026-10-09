@@ -31,7 +31,9 @@ Opened by `Ctrl+PrtSc`, the tray, or the Capture button. Inspired by Icecream Sc
 - **Freeze:** every display is captured first; one frameless, topmost window per display shows its still image,
   **undimmed and pixel-for-pixel** (no smoothing), so the screen looks exactly as it did. Once an area exists, only the
   outside gets a light 30% dim.
-- **Draw:** drag to draw the area with the cross cursor. The optional round **magnifier** (15×15 px at 8×, with pixel
+- **Draw:** drag to draw the area with the normal arrow (a cross made it blink). When the overlay appears it sets the
+  arrow once, so an editor's text I-beam underneath doesn't linger.
+  Handles still show resize/move cursors on hover. The optional round **magnifier** (15×15 px at 8×, with pixel
   coordinates) helps you start on the exact pixel. A click without a drag does nothing.
 - **Adjust** (the area stays editable after you release):
   - **8 handles** (4 corners, 4 edge midpoints) resize; dragging **inside** moves it; dragging **outside** starts a new area.
@@ -95,9 +97,12 @@ Sidebar bottom group: **Settings**, **About**. Tabs are contributed by modules (
 ### 0. Home screen (approved option A, 2026-10-09)
 - **Capture** heading; three square tiles: **Custom area** (solid apricot, primary), **Active window**, **Full screen**.
   Each tile shows its current shortcuts (primary and laptop alternative), live from `HotkeyManager`.
-- Clicking a tile **hides the main window**, captures, and shows the window again after Copy, Save, or cancel.
+- Clicking a tile keeps Snapricot **out of the shot**: its window is first **excluded from capture** (it stays on screen,
+  so the mouse stays over Snapricot and no other app's cursor shows). Custom area: freeze → opaque overlay with the
+  frozen image → the window hides behind it. Active window: the window hides so the previous app is active, then capture.
+  Full screen: capture directly. The window returns after Copy, Save, or cancel. Tiles don't grey out while capturing.
   Hotkeys and the tray never hide or show the window.
-- **Recent:** the 8 newest images in the default folder (thumbnails decoded off the UI thread at 320 px), captions
+- **Recent:** the 12 newest images, as fixed-size thumbnails (200 px wide) that wrap, so a wider window shows more of them, in the default folder (thumbnails decoded off the UI thread at 320 px), captions
   `13:34 · PNG` / `Yesterday · PNG` / `Oct 8 · JPG`; click opens the file; **Open folder** button; empty-state text.
   Refreshes after every save and when the default folder changes.
 

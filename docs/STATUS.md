@@ -124,3 +124,46 @@ Newest first. One entry per session: what changed and what's next.
 - **Bug fixed:** the notification could appear mid-screen because it was positioned before layout knew its height.
   It now places itself after layout (`DispatcherPriority.Loaded`) and stays invisible until placed.
 - Tests: 176 passing.
+
+### 2026-10-09 (later): Overlay opens in one step (cursor blinked twice)
+- Cause: the overlay window was shown, then resized/moved to the monitor's exact pixels after opening (its DPI is only
+  known then), so the screen and cursor changed twice; a new window was also created for every capture.
+- Fix: `RegionOverlayWindow` stays at `Opacity = 0` until it has its final size and position, then reveals in one step
+  (`DispatcherPriority.Loaded`) and refreshes the cursor. `OverlayRegionSelector` keeps one window per display and reuses
+  it (`Begin` / `End`); windows for removed or changed displays are closed. Surface and toolbar reset between captures.
+- Also: `IDesktopService.RefreshCursor()` (Windows: `SetCursorPos` to the current position), settle delay 120 ms.
+- Tests: 176 passing. Needs the owner's hands-on check (the agent can't trigger captures on the owner's screen).
+
+### 2026-10-09 (later): Cursor left alone; Recent thumbnails wrap
+- The overlay no longer changes the cursor at all (owner's call after the blink persisted); `RefreshCursor` was removed.
+  Handles still show resize/move cursors on hover.
+- Recent strip: fixed 200 px thumbnails in a wrapping panel (more per row when maximized, never stretched); shows 12.
+
+### 2026-10-09 (later): No text-cursor flash when capture starts
+- Cause: hiding the main window left the mouse over the app behind (e.g. Rider's editor) for ~0.1 s, showing its I-beam;
+  Windows then kept that cursor over the overlay until the mouse moved.
+- Fix: Custom area / Full screen from the app now keep the window visible but excluded from capture
+  (`IShellWindow.RunExcludedFromCaptureAsync` → `SetWindowDisplayAffinity(WDA_EXCLUDEFROMCAPTURE)`; falls back to hiding).
+  Active window still hides (the previous app must be foreground). The overlay sets the arrow once on reveal (`RefreshCursor`).
+
+### 2026-10-09 (later): Overlay first (replaces the "exclude main window" attempt)
+- Owner feedback: excluding the main window from capture was worse (the tile greyed out, then the window vanished).
+- Now: Custom area opens its overlay **first**, see-through (alpha 1/255, so it stays hit-testable) and excluded from capture;
+  then the main window hides (`IShellWindow.HideAsync`); then the screen is frozen and the image fills the overlay.
+  The cursor is over Snapricot throughout, so no other app's text cursor. Window/Full screen just hide first.
+- Commands use `AllowConcurrentExecutions` so tiles never grey out. `IRegionSelector` is now `OpenAsync` → `IRegionSession`.
+
+### 2026-10-09 (later): Snapricot appeared behind the frozen screen
+- Cause: Windows 11 fades a hidden window out; the screen was sometimes frozen mid-fade, so Snapricot showed in the image.
+- Fix: `ShellWindow.HideAsync` excludes the main window from capture (`SetWindowDisplayAffinity`) before hiding, so it can
+  never be in the frozen image; restored afterwards. Falls back to a 250 ms wait where exclusion isn't supported.
+- Verified end to end (UI Automation + simulated drag over the main window): saved image shows only what was behind
+  Snapricot; clipboard and file correct; main window returns. Test script: scratchpad `e2e-region.ps1` (not in the repo).
+
+### 2026-10-09 (later): Black screen fix — no more see-through overlay
+- Owner saw a black screen sometimes. The see-through (transparent) overlay was the risk: when transparency doesn't take
+  effect for a frame, a full-screen transparent window shows as solid black.
+- Now: overlays are always opaque and only appear with the frozen image. From the app: `IShellWindow.BeginCaptureAsync`
+  excludes the main window from capture (it stays on screen, mouse stays over Snapricot), the screen is frozen, the overlay
+  appears, and the main window hides behind it (`IShellCaptureScope.HideWindow`, via the overlay's `onShown`).
+- Note: PrintWindow can't read transparent windows (always black), so it is not a valid way to inspect overlays.

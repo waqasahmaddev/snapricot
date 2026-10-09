@@ -119,16 +119,17 @@
 
       <ItemsControl ItemsSource="{Binding Recent}" IsVisible="{Binding HasRecent}">
         <ItemsControl.ItemsPanel>
+          <!-- Fixed-size thumbnails that wrap: a wider window shows more of them, never bigger ones. -->
           <ItemsPanelTemplate>
-            <UniformGrid Columns="4" ColumnSpacing="12" RowSpacing="12" />
+            <WrapPanel ItemSpacing="12" LineSpacing="12" />
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
           <DataTemplate x:DataType="views:RecentCaptureItem">
-            <Button Classes="thumb" Command="{Binding Open}" ToolTip.Tip="{Binding Path}" HorizontalAlignment="Stretch"
+            <Button Classes="thumb" Command="{Binding Open}" ToolTip.Tip="{Binding Path}" Width="200"
                     HorizontalContentAlignment="Stretch">
               <StackPanel Spacing="4">
-                <Border Classes="frame" Height="96" BorderThickness="1" BorderBrush="#F0E6DC" Background="{DynamicResource ShellSidebarBrush}"
+                <Border Classes="frame" Height="112" BorderThickness="1" BorderBrush="#F0E6DC" Background="{DynamicResource ShellSidebarBrush}"
                         ClipToBounds="True">
                   <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" RenderOptions.BitmapInterpolationMode="HighQuality" />
                 </Border>

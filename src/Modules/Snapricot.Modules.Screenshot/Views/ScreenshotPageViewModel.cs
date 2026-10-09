@@ -41,8 +41,9 @@ public sealed record RecentCaptureItem(string Path, Bitmap Thumbnail, string Cap
 /// <summary>Home screen (approved option A): capture tiles, then the newest captures from the default folder.</summary>
 public sealed partial class ScreenshotPageViewModel : ObservableObject, IDisposable
 {
-    private const int RecentCount = 8;
+    private const int RecentCount = 12;
     private const int ThumbnailWidth = 320;
+    private static readonly TimeSpan ForegroundSettleDelay = TimeSpan.FromMilliseconds(120);
 
     private const string CropIcon = "M7,17V1H5V5H1V7H5V17A2,2 0 0,0 7,19H17V23H19V19H23V17M17,15H19V7C19,5.89 18.1,5 17,5H9V7H17V15Z";
     private const string WindowIcon = "M19,4C20.11,4 21,4.9 21,6V18A2,2 0 0,1 19,20H5C3.89,20 3,19.1 3,18V6A2,2 0 0,1 5,4H19M19,18V8H5V18H19Z";
@@ -66,18 +67,41 @@ public sealed partial class ScreenshotPageViewModel : ObservableObject, IDisposa
         _shell = shell;
         _hotkeys = hotkeys;
 
-        // Started from the app: hide Snapricot so it isn't in the shot, and bring it back once the capture is done.
-        ICommand FromApp(Func<CancellationToken, Task> capture) =>
-            new AsyncRelayCommand(() => window.RunHiddenAsync(() => capture(CancellationToken.None)));
+        // Started from the app, Snapricot must not be in the shot. Its window is first excluded from capture (it stays on
+        // screen, so the mouse stays over Snapricot and no other app's cursor shows). Custom area then freezes, shows the
+        // overlay, and hides the window behind it. Active window hides Snapricot so the previous app is active again.
+        // Full screen just captures. The window comes back once the capture is finished.
+        // AllowConcurrentExecutions keeps the tile from greying out while the capture runs.
+        var options = AsyncRelayCommandOptions.AllowConcurrentExecutions;
+
+        ICommand Region() => new AsyncRelayCommand(async () =>
+        {
+            await using var scope = await window.BeginCaptureAsync();
+            await coordinator.CaptureRegionAsync(CancellationToken.None, onOverlayShown: scope.HideWindow);
+        }, options);
+
+        ICommand ActiveWindow() => new AsyncRelayCommand(async () =>
+        {
+            await using var scope = await window.BeginCaptureAsync();
+            scope.HideWindow();
+            await Task.Delay(ForegroundSettleDelay); // let Windows activate the app that was behind Snapricot
+            await coordinator.CaptureActiveWindowAsync(CancellationToken.None);
+        }, options);
+
+        ICommand FullScreen() => new AsyncRelayCommand(async () =>
+        {
+            await using var scope = await window.BeginCaptureAsync();
+            await coordinator.CaptureFullScreenAsync(CancellationToken.None);
+        }, options);
 
         Modes =
         [
             new(CaptureCoordinator.RegionSource, "Custom area", "Drag, resize, then copy or save", StreamGeometry.Parse(CropIcon), true,
-                FromApp(coordinator.CaptureRegionAsync)),
+                Region()),
             new(CaptureCoordinator.WindowSource, "Active window", "The window you're working in", StreamGeometry.Parse(WindowIcon), false,
-                FromApp(coordinator.CaptureActiveWindowAsync)),
+                ActiveWindow()),
             new(CaptureCoordinator.FullScreenSource, "Full screen", "The display under the cursor", StreamGeometry.Parse(MonitorIcon), false,
-                FromApp(coordinator.CaptureFullScreenAsync)),
+                FullScreen()),
         ];
 
         RefreshGestures();

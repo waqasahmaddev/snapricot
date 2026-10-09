@@ -56,6 +56,12 @@ internal sealed class FakeDesktop : IDesktopService
     public PixelPoint GetCursorPosition() => Cursor;
 
     public PixelBounds? GetForegroundWindowBounds() => ForegroundWindow;
+
+    public void RefreshCursor()
+    {
+    }
+
+    public bool TrySetExcludedFromCapture(nint windowHandle, bool excluded) => false;
 }
 
 internal sealed class FakeClipboard : IClipboardService
@@ -73,8 +79,15 @@ internal sealed class FakeRegionSelector : IRegionSelector
 {
     public Func<IReadOnlyList<FrozenDisplay>, RegionSelection?> Choose { get; set; } = _ => null;
 
-    public Task<RegionSelection?> SelectAsync(IReadOnlyList<FrozenDisplay> displays, CancellationToken cancellationToken) =>
-        Task.FromResult(Choose(displays));
+    /// <summary>How many displays were already frozen when the overlay was asked to show.</summary>
+    public int FrozenWhenShown { get; private set; } = -1;
+
+    public Task<RegionSelection?> SelectAsync(IReadOnlyList<FrozenDisplay> displays, Action? onShown, CancellationToken cancellationToken)
+    {
+        FrozenWhenShown = displays.Count;
+        onShown?.Invoke();
+        return Task.FromResult(Choose(displays));
+    }
 }
 
 internal sealed class FakeSaveDialog : ISaveDialog

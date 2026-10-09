@@ -23,6 +23,18 @@ public interface IDesktopService
 
     /// <summary>The visible frame of the focused window, or <see langword="null"/> if there is none.</summary>
     PixelBounds? GetForegroundWindowBounds();
+
+    /// <summary>
+    /// Makes the OS re-evaluate the cursor shape now. Windows only updates it when the mouse moves, so without this a
+    /// newly shown overlay keeps the cursor of the app underneath (e.g. an editor's text I-beam).
+    /// </summary>
+    void RefreshCursor();
+
+    /// <summary>
+    /// Excludes a native window from screen capture while keeping it on screen (Windows 10 2004+).
+    /// Returns <see langword="false"/> when the OS doesn't support it.
+    /// </summary>
+    bool TrySetExcludedFromCapture(nint windowHandle, bool excluded);
 }
 
 /// <summary>System-wide keyboard shortcuts that work while another app has focus.</summary>

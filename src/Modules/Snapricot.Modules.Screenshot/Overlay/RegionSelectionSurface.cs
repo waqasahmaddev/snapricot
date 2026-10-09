@@ -13,10 +13,14 @@ namespace Snapricot.Modules.Screenshot.Overlay;
 /// The custom area layer: dims outside the selection and lets the user draw, move, and resize it with 8 handles.
 /// It does <b>not</b> draw the frozen screenshot: that sits underneath in a separate, static <c>Image</c> the compositor
 /// caches on the GPU, so a pointer move only repaints this light layer (a few rectangles and a label).
-/// <paramref name="frozen"/> is only read by the optional magnifier.
+/// The frozen bitmap is only read by the optional magnifier. Instances are reused across captures (<see cref="Reset"/>).
 /// </summary>
-internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displayOrigin, bool showMagnifier) : Control
+internal sealed class RegionSelectionSurface : Control
 {
+    private Bitmap? _frozen;
+    private CorePixelPoint _displayOrigin;
+    private bool _showMagnifier;
+
     private const double HandleSize = 10;
     private const double HandleHitSize = 16;
     private const double MinSize = 4;
@@ -68,7 +72,17 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
     public double? AspectRatio { get; set; }
 
     /// <summary>Exact mapping from this control's DIPs to frozen-image pixels (robust to any DPI rounding).</summary>
-    public double PixelsPerDip => Bounds.Width > 0 ? frozen.PixelSize.Width / Bounds.Width : 1;
+    public double PixelsPerDip => Bounds.Width > 0 && _frozen is { } frozen ? frozen.PixelSize.Width / Bounds.Width : 1;
+
+    /// <summary>Starts a fresh capture: new frozen image, no selection, no aspect lock.</summary>
+    public void Reset(Bitmap frozen, CorePixelPoint displayOrigin, bool showMagnifier)
+    {
+        (_frozen, _displayOrigin, _showMagnifier) = (frozen, displayOrigin, showMagnifier);
+        (_mode, Selection, AspectRatio, _labelText, _label) = (Mode.None, null, null, null, null);
+        _pointer = new Point(-1, -1);
+        Cursor = null; // the normal arrow; handles still show resize/move cursors on hover
+        InvalidateVisual();
+    }
 
     public void SetSelection(Rect? selection)
     {
@@ -227,7 +241,7 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
         }
 
         // Optional (Settings → "Area selection magnifier", off by default). Hidden while just looking at or moving the area.
-        var wantsMagnifier = showMagnifier &&
+        var wantsMagnifier = _showMagnifier && _frozen is not null &&
             (_mode is Mode.Drawing or Mode.Resizing || (_mode == Mode.None && Selection is null));
         if (wantsMagnifier && full.Contains(_pointer))
         {
@@ -278,7 +292,7 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
         using (context.PushRenderOptions(new RenderOptions { BitmapInterpolationMode = BitmapInterpolationMode.None }))
         {
             context.FillRectangle(Brushes.Black, lens);
-            context.DrawImage(frozen, source, lens);
+            context.DrawImage(_frozen!, source, lens);
 
             var cell = MagnifierSize / MagnifierPixels;
             context.DrawRectangle(null, HandlePen, new Rect(lens.X + (half * cell), lens.Y + (half * cell), cell, cell));
@@ -287,7 +301,7 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
         context.DrawEllipse(null, MagnifierPen, lens);
 
         var coordinates = Text(
-            string.Create(CultureInfo.InvariantCulture, $"{displayOrigin.X + pixelX}, {displayOrigin.Y + pixelY}"), 11);
+            string.Create(CultureInfo.InvariantCulture, $"{_displayOrigin.X + pixelX}, {_displayOrigin.Y + pixelY}"), 11);
         var labelBox = new Rect(lens.X + ((MagnifierSize - coordinates.Width - 10) / 2), lens.Bottom + 6, coordinates.Width + 10, coordinates.Height + 4);
         context.FillRectangle(PlumBrush, labelBox);
         context.DrawText(coordinates, new Point(labelBox.X + 5, labelBox.Y + 2));
@@ -308,7 +322,7 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
                 HandleEdges.Right => StandardCursorType.RightSide,
                 HandleEdges.Top => StandardCursorType.TopSide,
                 HandleEdges.Bottom => StandardCursorType.BottomSide,
-                _ => StandardCursorType.Cross,
+                _ => StandardCursorType.Arrow,
             });
             _cursors[key] = cursor;
         }

@@ -59,6 +59,16 @@ internal sealed partial class CustomAreaToolbar : UserControl
 
     public bool IsEditingSize => WidthBox.IsFocused || HeightBox.IsFocused;
 
+    /// <summary>Back to Free aspect, unlocked, hidden (windows are reused across captures).</summary>
+    public void Reset()
+    {
+        _updating = true;
+        AspectBox.SelectedIndex = 0;
+        LockButton.IsChecked = false;
+        _updating = false;
+        IsVisible = false;
+    }
+
     /// <summary>Shows the current size, unless the user is typing in one of the boxes.</summary>
     public void ShowSize(int width, int height)
     {

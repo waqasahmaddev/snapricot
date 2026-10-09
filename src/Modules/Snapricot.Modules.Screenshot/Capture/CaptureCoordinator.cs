@@ -33,15 +33,19 @@ public sealed partial class CaptureCoordinator(
 
     private int _busy;
 
-    /// <summary>Freezes every display and lets the user draw and adjust a custom area.</summary>
-    public Task CaptureRegionAsync(CancellationToken cancellationToken) =>
+    /// <summary>
+    /// Freezes every display, then shows the overlay over the frozen images and lets the user draw and adjust a custom
+    /// area. <paramref name="onOverlayShown"/> runs once the overlay covers the screen (the app uses it to hide its window
+    /// behind the overlay, so the user never sees it go and the mouse never passes over another app).
+    /// </summary>
+    public Task CaptureRegionAsync(CancellationToken cancellationToken, Action? onOverlayShown = null) =>
         RunAsync(RegionSource, async () =>
         {
             var displays = screen.GetDisplays();
             var frozen = await Task.WhenAll(displays.Select(async display =>
                 new FrozenDisplay(display, await screen.CaptureAsync(display.Bounds, cancellationToken).ConfigureAwait(false))));
 
-            var selection = await regionSelector.SelectAsync(frozen, cancellationToken);
+            var selection = await regionSelector.SelectAsync(frozen, onOverlayShown, cancellationToken);
             return selection is null
                 ? null
                 : (ImageOperations.Crop(selection.Display.Image, selection.Bounds), selection.Intent);

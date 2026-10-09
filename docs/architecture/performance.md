@@ -29,7 +29,7 @@ CI runners are noisy, so CI **reports** these numbers in the job summary but doe
 - **Two-layer overlay:** the frozen screenshot is a static, immutable `Image` (uploaded to the GPU once and cached by the
   compositor); the selection, dim, handles, and label are a separate light layer. A pointer move repaints only that layer,
   and the size label's text is reused while the size is unchanged.
-- **Pre-created overlay:** the capture overlay window is created hidden at startup and only shown on the hotkey (Phase 1).
+- **Reused overlay windows:** one per display, created on the first capture and reused afterwards; each stays invisible until fully sized, so it appears in one step.
 - **Workstation, non-concurrent GC** (`ServerGarbageCollector=false`, `ConcurrentGarbageCollection=false`): a smaller
   footprint for a mostly idle desktop app.
 - **Clipboard first, disk later:** never make the user wait for PNG encoding or I/O.

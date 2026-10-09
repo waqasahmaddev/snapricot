@@ -38,6 +38,13 @@ public static class MacOSPlatformServiceCollectionExtensions
 
         public PixelBounds? GetForegroundWindowBounds() => throw NotYet();
 
+        public void RefreshCursor()
+        {
+            // Nothing to do until v2.0.
+        }
+
+        public bool TrySetExcludedFromCapture(nint windowHandle, bool excluded) => false;
+
         public Task<IDisposable> RegisterAsync(HotkeyGesture gesture, Func<CancellationToken, Task> onPressed, CancellationToken cancellationToken) =>
             throw NotYet();
 

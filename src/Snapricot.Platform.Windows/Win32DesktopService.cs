@@ -13,6 +13,19 @@ internal sealed unsafe class Win32DesktopService : IDesktopService
         return GetCursorPos(&point) ? new PixelPoint(point.X, point.Y) : default;
     }
 
+    public void RefreshCursor()
+    {
+        // Moving the cursor to where it already is makes Windows send WM_SETCURSOR to the window under it.
+        POINT point;
+        if (GetCursorPos(&point))
+        {
+            SetCursorPos(point.X, point.Y);
+        }
+    }
+
+    public bool TrySetExcludedFromCapture(nint windowHandle, bool excluded) =>
+        windowHandle != 0 && SetWindowDisplayAffinity(windowHandle, excluded ? WDA_EXCLUDEFROMCAPTURE : WDA_NONE);
+
     public PixelBounds? GetForegroundWindowBounds()
     {
         var hwnd = GetForegroundWindow();

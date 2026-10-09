@@ -259,8 +259,20 @@ public sealed class CaptureCoordinatorTests : IDisposable
         Assert.Empty(_clipboard.Images);
     }
 
+    [Fact]
+    public async Task Region_FreezesFirst_ThenShowsOverlay_ThenRunsOnOverlayShown()
+    {
+        SelectOnPrimary(CaptureIntent.Copy);
+        var shownCalls = 0;
+
+        await Create().CaptureRegionAsync(Token, onOverlayShown: () => shownCalls++);
+
+        Assert.Equal(2, _selector.FrozenWhenShown); // both displays frozen before the overlay
+        Assert.Equal(1, shownCalls);
+    }
+
     private sealed class BlockingSelector(Task<RegionSelection?> result) : IRegionSelector
     {
-        public Task<RegionSelection?> SelectAsync(IReadOnlyList<FrozenDisplay> displays, CancellationToken cancellationToken) => result;
+        public Task<RegionSelection?> SelectAsync(IReadOnlyList<FrozenDisplay> displays, Action? onShown, CancellationToken cancellationToken) => result;
     }
 }
