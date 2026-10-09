@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Feature module. Allowed references: Snapricot.Core and UI packages.
+    Never reference another module or a Snapricot.Platform.* project (enforced by Snapricot.Architecture.Tests).
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Snapricot.Core\Snapricot.Core.csproj" />
+  </ItemGroup>
+
+</Project>

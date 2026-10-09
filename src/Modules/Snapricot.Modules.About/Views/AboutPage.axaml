@@ -1,0 +1,13 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Snapricot.Modules.About.Views.AboutPage">
+  <StackPanel Margin="32" Spacing="12">
+    <TextBlock Text="About" FontSize="22" FontWeight="SemiBold" />
+    <TextBlock Text="Snapricot: snap it, mark it, share it." Opacity="0.75" />
+    <TextBlock Text="Free and open source under the MIT license. No ads, no account, no telemetry."
+               Opacity="0.75" TextWrapping="Wrap" />
+    <Border HorizontalAlignment="Left" Padding="8,3" CornerRadius="4" Background="{DynamicResource BrandTintBrush}">
+      <TextBlock Text="github.com/waqasahmaddev/snapricot" Foreground="{DynamicResource BrandTintTextBrush}" FontSize="12" />
+    </Border>
+  </StackPanel>
+</UserControl>

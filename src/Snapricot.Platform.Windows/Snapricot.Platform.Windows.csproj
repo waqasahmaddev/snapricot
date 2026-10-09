@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Windows implementations of the Core.Platform interfaces (ADR-0007, ADR-0008).
+    The 10.0.19041 TFM gives access to Windows.Graphics.Capture (Windows 10 2004+).
+    EnableWindowsTargeting lets the macOS CI job build the full solution.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Snapricot.Core\Snapricot.Core.csproj" />
+  </ItemGroup>
+
+</Project>

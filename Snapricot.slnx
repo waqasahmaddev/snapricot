@@ -1,0 +1,23 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Snapricot.App/Snapricot.App.csproj" />
+    <Project Path="src/Snapricot.Core/Snapricot.Core.csproj" />
+    <Project Path="src/Snapricot.Platform.MacOS/Snapricot.Platform.MacOS.csproj" />
+    <Project Path="src/Snapricot.Platform.Windows/Snapricot.Platform.Windows.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/">
+    <Project Path="src/Modules/Snapricot.Modules.About/Snapricot.Modules.About.csproj" />
+    <Project Path="src/Modules/Snapricot.Modules.Screenshot/Snapricot.Modules.Screenshot.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Snapricot.Architecture.Tests/Snapricot.Architecture.Tests.csproj" />
+    <Project Path="tests/Snapricot.Core.Tests/Snapricot.Core.Tests.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="AGENTS.md" />
+    <File Path="README.md" />
+  </Folder>
+</Solution>

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Core is the contract of the whole app: interfaces, models, module system and event bus.
+    Rules (enforced by Snapricot.Architecture.Tests):
+      - no UI framework (Avalonia) references
+      - no OS-specific code
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Snapricot.Core.Tests" />
+  </ItemGroup>
+
+</Project>

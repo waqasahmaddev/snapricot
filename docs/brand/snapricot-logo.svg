@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Snapricot logo">
+  <title>Snapricot</title>
+  <!-- Source of truth for the logo. tools/brand/Render-Logo.ps1 mirrors this geometry for PNGs. -->
+  <path d="M236 290 L426 290 A190 190 0 1 1 236 100 Z" fill="#F4943C"/>
+  <path d="M228 140 C166 230 166 350 216 440" fill="none" stroke="#D9622B" stroke-width="14" stroke-linecap="round"/>
+  <path d="M270 256 L270 66 A190 190 0 0 1 460 256 Z" fill="#FFC98F"/>
+  <rect x="256" y="52" width="218" height="218" fill="none" stroke="#D9622B" stroke-width="12"
+        stroke-dasharray="19.2 13.2" stroke-linecap="round"/>
+  <path d="M230 108 L210 60" stroke="#6B4A2B" stroke-width="14" stroke-linecap="round"/>
+  <path d="M212 66 C116 10 66 80 86 110 C136 120 186 100 212 66 Z" fill="#3E9B6A"/>
+</svg>

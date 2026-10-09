@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    The shell + composition root. It is the only project that knows about every module and the platform.
+    The target framework depends on the OS we build on: Windows gets the WinRT-capable TFM, macOS plain net10.0.
+  -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>Snapricot</AssemblyName>
+    <RootNamespace>Snapricot.App</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
+
+    <!-- Performance budgets (ADR-0006, docs/architecture/performance.md) -->
+    <PublishAot>true</PublishAot>
+    <TieredPGO>true</TieredPGO>
+    <ServerGarbageCollector>false</ServerGarbageCollector>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <DefineConstants>$(DefineConstants);SNAPRICOT_WINDOWS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="!$([MSBuild]::IsOSPlatform('Windows'))">
+    <TargetFramework>net10.0</TargetFramework>
+    <DefineConstants>$(DefineConstants);SNAPRICOT_MACOS</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Snapricot.Core\Snapricot.Core.csproj" />
+    <ProjectReference Include="..\Modules\Snapricot.Modules.Screenshot\Snapricot.Modules.Screenshot.csproj" />
+    <ProjectReference Include="..\Modules\Snapricot.Modules.About\Snapricot.Modules.About.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+    <ProjectReference Include="..\Snapricot.Platform.Windows\Snapricot.Platform.Windows.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="!$([MSBuild]::IsOSPlatform('Windows'))">
+    <ProjectReference Include="..\Snapricot.Platform.MacOS\Snapricot.Platform.MacOS.csproj" />
+  </ItemGroup>
+
+</Project>

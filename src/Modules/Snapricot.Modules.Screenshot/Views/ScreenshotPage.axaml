@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:views="using:Snapricot.Modules.Screenshot.Views"
+             x:Class="Snapricot.Modules.Screenshot.Views.ScreenshotPage"
+             x:DataType="views:ScreenshotPageViewModel">
+  <StackPanel Margin="32" Spacing="16">
+    <TextBlock Text="Screenshot" FontSize="22" FontWeight="SemiBold" />
+    <TextBlock Text="{Binding Status}" Opacity="0.7" TextWrapping="Wrap" />
+
+    <ItemsControl ItemsSource="{Binding Modes}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+        <DataTemplate x:DataType="views:CaptureModeItem">
+          <Border Width="220" Margin="0,0,12,12" Padding="16" CornerRadius="10"
+                  BorderThickness="1" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
+            <StackPanel Spacing="6">
+              <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+              <TextBlock Text="{Binding Description}" Opacity="0.7" TextWrapping="Wrap" />
+              <Border HorizontalAlignment="Left" Padding="6,2" CornerRadius="4" Background="{DynamicResource BrandTintBrush}">
+                <TextBlock Text="{Binding Gesture}" Foreground="{DynamicResource BrandTintTextBrush}" FontFamily="Consolas,Menlo,monospace" FontSize="12" />
+              </Border>
+            </StackPanel>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+  </StackPanel>
+</UserControl>
