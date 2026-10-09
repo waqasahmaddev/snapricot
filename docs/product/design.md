@@ -78,7 +78,7 @@ Sidebar bottom group: **Settings**, **About**. Tabs are contributed by modules (
 | Tab | Options (default) | Owner |
 |---|---|---|
 | **General** | Start with Windows (off) · Closing the window keeps Snapricot in the tray (on) | Shell |
-| | Area selection magnifier (off) · Show a notification after capture (on) · Play a capture sound (off) | Screenshot |
+| | Area selection magnifier (off) · Show a notification after capture (on) · Notification position (bottom right) · Play a capture sound (off) | Screenshot |
 | **Save to** | Default folder with Change… / Reset (`Pictures\Snapricot`) · File name pattern with live example (`{date}_{time}`) · PNG or JPG (PNG) · Copy also saves automatically (on) · Open the folder after saving (off) | Screenshot |
 | **Hotkeys** | Each hotkey with **Change** (press the new combination; Esc cancels) · "In use by another app" warning · Reset to defaults | Shell |
 
@@ -87,7 +87,9 @@ Sidebar bottom group: **Settings**, **About**. Tabs are contributed by modules (
 - Secondary buttons are white with a light border and an apricot hover; "off" toggles use a warm grey knob.
 
 ### 4b. Capture notification
-- Bottom-right of the screen; never takes focus; closes after 4 s (stays open while hovered).
+- Position is a setting (Settings → General → **Notification position**): **Bottom right** (default), Bottom left,
+  Top right, Top left, on the main screen's work area (above the taskbar). Placed only after its final size is known,
+  and invisible until placed. Never takes focus; closes after 4 s (stays open while hovered).
 - Thumbnail, "Copied and saved" / "Copied to clipboard" / "Saved", file name. Click: show the file in its folder.
 
 ### 0. Home screen (approved option A, 2026-10-09)

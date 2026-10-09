@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snapricot.Modules.Screenshot.Capture;
+using Snapricot.Modules.Screenshot.Feedback;
 
 namespace Snapricot.Modules.Screenshot.Settings;
 
@@ -15,7 +16,14 @@ public sealed partial class CaptureSettingsViewModel : ObservableObject
         ShowMagnifier = settings.ShowMagnifier;
         ShowNotification = settings.ShowNotification;
         PlaySound = settings.PlaySound;
+        PositionIndex = (int)settings.NotificationPosition;
     }
+
+    /// <summary>Order matches <see cref="NotificationPosition"/>.</summary>
+    public IReadOnlyList<string> Positions { get; } = ["Bottom right", "Bottom left", "Top right", "Top left"];
+
+    [ObservableProperty]
+    public partial int PositionIndex { get; set; }
 
     [ObservableProperty]
     public partial bool ShowMagnifier { get; set; }
@@ -29,6 +37,14 @@ public sealed partial class CaptureSettingsViewModel : ObservableObject
     partial void OnShowMagnifierChanged(bool value) => _preferences.Update(s => s with { ShowMagnifier = value });
 
     partial void OnShowNotificationChanged(bool value) => _preferences.Update(s => s with { ShowNotification = value });
+
+    partial void OnPositionIndexChanged(int value)
+    {
+        if (value >= 0)
+        {
+            _preferences.Update(s => s with { NotificationPosition = (NotificationPosition)value });
+        }
+    }
 
     partial void OnPlaySoundChanged(bool value) => _preferences.Update(s => s with { PlaySound = value });
 }

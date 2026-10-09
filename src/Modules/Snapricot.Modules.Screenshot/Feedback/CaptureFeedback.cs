@@ -35,7 +35,8 @@ public sealed class CaptureFeedback(ScreenshotPreferences preferences, ISoundSer
                     _current = null;
                 }
             };
-            _current.Show(delivery, delivery.SavedPath is { } path ? () => shell.RevealInFolder(path) : null);
+            _current.Show(delivery, delivery.SavedPath is { } path ? () => shell.RevealInFolder(path) : null,
+                preferences.Settings.NotificationPosition);
         });
     }
 }

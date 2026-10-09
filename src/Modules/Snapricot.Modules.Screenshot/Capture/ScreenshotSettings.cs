@@ -41,6 +41,9 @@ public sealed record ScreenshotSettings
 
     public bool PlaySound { get; set; }
 
+    /// <summary>Corner of the primary screen where the notification appears.</summary>
+    public Feedback.NotificationPosition NotificationPosition { get; set; } = Feedback.NotificationPosition.BottomRight;
+
     /// <summary>Shows the pixel magnifier while drawing an area. Off by default (Settings → General).</summary>
     public bool ShowMagnifier { get; set; }
 

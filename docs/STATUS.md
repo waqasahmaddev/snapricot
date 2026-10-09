@@ -117,3 +117,10 @@ Newest first. One entry per session: what changed and what's next.
 - **Text selection** in text boxes is light apricot (`#FFD9C2`) with plum text.
 - Tests: 171 passing. Home and Hotkeys verified via UI Automation screenshots.
 - **Owner to check:** on the laptop, whether Windows' "Print screen opens screen capture" setting was swallowing `Ctrl+PrtSc`.
+
+### 2026-10-09 (later): Notification position
+- Settings → General → **Notification position** (Bottom right default, Bottom left, Top right, Top left); persisted as
+  `NotificationPosition` in the screenshot settings. `ToastPlacement` is pure and unit-tested.
+- **Bug fixed:** the notification could appear mid-screen because it was positioned before layout knew its height.
+  It now places itself after layout (`DispatcherPriority.Loaded`) and stays invisible until placed.
+- Tests: 176 passing.

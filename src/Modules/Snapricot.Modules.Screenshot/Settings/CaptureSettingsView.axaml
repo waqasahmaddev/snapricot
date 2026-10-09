@@ -18,6 +18,14 @@
       </StackPanel>
       <ToggleSwitch Grid.Column="1" IsChecked="{Binding ShowNotification}" OnContent="" OffContent="" MinWidth="0" />
     </Grid>
+    <Grid ColumnDefinitions="*,Auto" IsEnabled="{Binding ShowNotification}">
+      <StackPanel Spacing="2">
+        <TextBlock Text="Notification position" />
+        <TextBlock Classes="description" Text="Where the notification appears on your main screen." />
+      </StackPanel>
+      <ComboBox Grid.Column="1" ItemsSource="{Binding Positions}" SelectedIndex="{Binding PositionIndex}" MinWidth="150"
+                VerticalAlignment="Center" />
+    </Grid>
     <Grid ColumnDefinitions="*,Auto">
       <StackPanel Spacing="2">
         <TextBlock Text="Play a capture sound" />
