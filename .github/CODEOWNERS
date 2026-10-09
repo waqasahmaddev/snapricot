@@ -1,0 +1,13 @@
+# Code owners for Snapricot. The last matching pattern wins.
+
+# Default owner for everything
+*                           @waqasahmaddev
+
+# Architecture-critical areas
+/src/Snapricot.Core/        @waqasahmaddev
+/tests/Snapricot.Architecture.Tests/ @waqasahmaddev
+/docs/adr/                  @waqasahmaddev
+
+# CI and repo configuration
+/.github/                   @waqasahmaddev
+/Directory.Packages.props   @waqasahmaddev
