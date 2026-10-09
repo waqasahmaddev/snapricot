@@ -6,14 +6,14 @@
   <StackPanel Spacing="20">
     <StackPanel Spacing="6">
       <TextBlock Classes="label" Text="Save screenshots to" />
-      <Border CornerRadius="8" Padding="10,4,4,4" BorderThickness="1"
+      <Border CornerRadius="0" Padding="10,4,4,4" BorderThickness="1"
               BorderBrush="{DynamicResource ShellBorderBrush}" Background="{DynamicResource ShellSidebarBrush}">
         <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto" ColumnSpacing="8">
           <PathIcon Width="16" Height="16" Foreground="{DynamicResource BrandApricotDeepBrush}" VerticalAlignment="Center"
                     Data="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z" />
           <TextBlock Grid.Column="1" Text="{Binding Folder}" VerticalAlignment="Center" TextTrimming="PrefixCharacterEllipsis"
                      ToolTip.Tip="{Binding Folder}" Foreground="{DynamicResource BrandPlumBrush}" />
-          <Border Grid.Column="2" Padding="6,1" CornerRadius="4" VerticalAlignment="Center" IsVisible="{Binding IsDefaultFolder}"
+          <Border Grid.Column="2" Padding="6,1" CornerRadius="0" VerticalAlignment="Center" IsVisible="{Binding IsDefaultFolder}"
                   Background="{DynamicResource BrandTintBrush}">
             <TextBlock Text="Default" FontSize="11" Foreground="{DynamicResource BrandTintTextBrush}" />
           </Border>

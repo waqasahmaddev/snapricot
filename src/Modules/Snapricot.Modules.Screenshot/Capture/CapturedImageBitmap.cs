@@ -7,7 +7,18 @@ namespace Snapricot.Modules.Screenshot.Capture;
 
 internal static class CapturedImageBitmap
 {
-    /// <summary>Copies the pixels into an Avalonia bitmap at 96 DPI, so 1 bitmap unit = 1 physical pixel.</summary>
+    /// <summary>
+    /// An immutable copy at 96 DPI (1 bitmap unit = 1 physical pixel). Immutable bitmaps are uploaded to the GPU once
+    /// and cached, which is what makes the overlay smooth; use this for anything that's only displayed.
+    /// </summary>
+    public static unsafe Bitmap ToDisplayBitmap(CapturedImage image)
+    {
+        using var pinned = image.Pixels.Pin();
+        return new Bitmap(PixelFormat.Bgra8888, AlphaFormat.Opaque, (nint)pinned.Pointer,
+            new PixelSize(image.Width, image.Height), new Vector(96, 96), image.Stride);
+    }
+
+    /// <summary>Copies the pixels into a writable Avalonia bitmap at 96 DPI (used for encoding to PNG/JPG).</summary>
     public static unsafe WriteableBitmap ToBitmap(CapturedImage image)
     {
         var bitmap = new WriteableBitmap(

@@ -18,6 +18,11 @@ common shortcuts. Windows 11 binds plain `PrtSc` to the Snipping Tool by default
 | Capture full screen | `Shift+PrtSc` |
 | Copy text from screen (v1.1) | `Ctrl+Alt+PrtSc` (proposed) |
 
+**Laptop alternatives (added 2026-10-09):** many laptops have no PrtSc key, need `Fn`, or Windows 11 gives PrtSc to
+the Snipping Tool ("Use the Print screen key to open screen capture"). Each capture action therefore has a second,
+independently rebindable binding: `Ctrl+Shift+1` (custom area), `Ctrl+Shift+2` (window), `Ctrl+Shift+3` (full screen);
+ids end in `.alt`.
+
 - Plain `PrtSc` stays free for the Snipping Tool.
 - Every default is rebindable in Settings (Phase 3). A hotkey another app already owns is logged and skipped at startup;
   it never blocks startup (`HotkeyRegistrar`).

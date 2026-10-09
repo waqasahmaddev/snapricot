@@ -10,7 +10,7 @@
       <Setter Property="Padding" Value="0" />
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="CornerRadius" Value="0" />
       <Setter Property="Foreground" Value="{DynamicResource BrandPlumBrush}" />
     </Style>
     <Style Selector="Button.icon:pointerover /template/ ContentPresenter, ToggleButton.icon:pointerover /template/ ContentPresenter, ToggleButton.icon:checked /template/ ContentPresenter">
@@ -32,7 +32,7 @@
   </UserControl.Styles>
 
   <Border Background="White" BorderBrush="{DynamicResource ShellBorderBrush}" BorderThickness="1"
-          CornerRadius="10" Padding="6,4">
+          CornerRadius="0" Padding="6,4">
     <StackPanel Orientation="Horizontal" Spacing="4">
       <PathIcon Margin="4,0,0,0" Foreground="{DynamicResource BrandApricotDeepBrush}" VerticalAlignment="Center"
                 Data="M7,17V1H5V5H1V7H5V17A2,2 0 0,0 7,19H17V23H19V19H23V17M17,15H19V7C19,5.89 18.1,5 17,5H9V7H17V15Z" />
@@ -59,7 +59,7 @@
       <Button x:Name="SaveButton" Classes="icon" VerticalAlignment="Center" ToolTip.Tip="Save as… (choose name and folder)">
         <PathIcon Data="M15,9H5V5H15M12,19A3,3 0 0,1 9,16A3,3 0 0,1 12,13A3,3 0 0,1 15,16A3,3 0 0,1 12,19M17,3H5C3.89,3 3,3.9 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7L17,3Z" />
       </Button>
-      <Button x:Name="CopyButton" Classes="accent" Height="30" Padding="10,0" CornerRadius="6" VerticalAlignment="Center"
+      <Button x:Name="CopyButton" Classes="accent" Height="30" Padding="10,0" CornerRadius="0" VerticalAlignment="Center"
               ToolTip.Tip="Copy and save (Enter)">
         <StackPanel Orientation="Horizontal" Spacing="6">
           <PathIcon Width="14" Height="14"

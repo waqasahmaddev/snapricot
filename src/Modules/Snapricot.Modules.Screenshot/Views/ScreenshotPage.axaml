@@ -3,34 +3,141 @@
              xmlns:views="using:Snapricot.Modules.Screenshot.Views"
              x:Class="Snapricot.Modules.Screenshot.Views.ScreenshotPage"
              x:DataType="views:ScreenshotPageViewModel">
-  <StackPanel Margin="32" Spacing="16">
-    <TextBlock Text="Screenshot" FontSize="22" FontWeight="SemiBold" />
-    <TextBlock Text="{Binding Status}" Opacity="0.7" TextWrapping="Wrap" />
+  <!-- Home screen, approved option A: capture tiles, then Recent. -->
+  <UserControl.Styles>
+    <Style Selector="Button.tile">
+      <Setter Property="Background" Value="White" />
+      <Setter Property="BorderBrush" Value="#E7DED5" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Padding" Value="18" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="VerticalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="VerticalContentAlignment" Value="Top" />
+    </Style>
+    <Style Selector="Button.tile:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#FFF8F2" />
+      <Setter Property="BorderBrush" Value="{DynamicResource BrandApricotDeepBrush}" />
+    </Style>
+    <Style Selector="Button.tile.primary">
+      <Setter Property="Background" Value="{DynamicResource BrandApricotDeepBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource BrandApricotDeepBrush}" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.tile.primary:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#C4521F" />
+      <Setter Property="BorderBrush" Value="#C4521F" />
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.tile PathIcon.icon">
+      <Setter Property="Foreground" Value="{DynamicResource BrandApricotDeepBrush}" />
+    </Style>
+    <Style Selector="Button.tile.primary PathIcon.icon">
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.tile TextBlock.sub">
+      <Setter Property="Foreground" Value="{DynamicResource ShellMutedTextBrush}" />
+    </Style>
+    <Style Selector="Button.tile.primary TextBlock.sub">
+      <Setter Property="Foreground" Value="#FFE3D2" />
+    </Style>
+    <Style Selector="Border.kbd">
+      <Setter Property="Background" Value="{DynamicResource BrandTintBrush}" />
+      <Setter Property="Padding" Value="6,2" />
+    </Style>
+    <Style Selector="Button.tile.primary Border.kbd">
+      <Setter Property="Background" Value="#C4521F" />
+    </Style>
+    <Style Selector="Border.kbd TextBlock">
+      <Setter Property="FontFamily" Value="Consolas,Menlo,monospace" />
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Foreground" Value="{DynamicResource BrandTintTextBrush}" />
+    </Style>
+    <Style Selector="Button.tile.primary Border.kbd TextBlock">
+      <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style Selector="Button.thumb">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="Padding" Value="0" />
+    </Style>
+    <Style Selector="Button.thumb:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.thumb:pointerover Border.frame">
+      <Setter Property="BorderBrush" Value="{DynamicResource BrandApricotDeepBrush}" />
+    </Style>
+  </UserControl.Styles>
 
-    <ItemsControl ItemsSource="{Binding Modes}">
-      <ItemsControl.ItemsPanel>
-        <ItemsPanelTemplate>
-          <WrapPanel />
-        </ItemsPanelTemplate>
-      </ItemsControl.ItemsPanel>
-      <ItemsControl.ItemTemplate>
-        <DataTemplate x:DataType="views:CaptureModeItem">
-          <Border Width="220" Margin="0,0,12,12" Padding="16" CornerRadius="10"
-                  BorderThickness="1" BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}">
-            <StackPanel Spacing="8">
-              <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
-              <TextBlock Text="{Binding Description}" Opacity="0.7" TextWrapping="Wrap" />
-              <Grid ColumnDefinitions="Auto,*,Auto">
-                <Border Padding="6,2" CornerRadius="4" VerticalAlignment="Center" Background="{DynamicResource BrandTintBrush}">
-                  <TextBlock Text="{Binding Gesture}" Foreground="{DynamicResource BrandTintTextBrush}"
-                             FontFamily="Consolas,Menlo,monospace" FontSize="12" />
+  <ScrollViewer>
+    <StackPanel Margin="32,28" Spacing="18">
+      <StackPanel Spacing="4">
+        <TextBlock Text="Capture" FontSize="22" FontWeight="SemiBold" Foreground="{DynamicResource BrandPlumBrush}" />
+        <TextBlock Classes="description" Text="Pick a mode, or use its shortcut from any app. Esc cancels." />
+      </StackPanel>
+
+      <ItemsControl ItemsSource="{Binding Modes}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Columns="3" ColumnSpacing="12" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="views:CaptureModeItem">
+            <Button Classes="tile" Classes.primary="{Binding IsPrimary}" Command="{Binding Capture}">
+              <StackPanel Spacing="8">
+                <PathIcon Classes="icon" Data="{Binding Icon}" Width="26" Height="26" HorizontalAlignment="Left" />
+                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="15" />
+                <TextBlock Classes="sub" Text="{Binding Description}" TextWrapping="Wrap" FontSize="12" />
+                <WrapPanel ItemSpacing="6" LineSpacing="6">
+                  <Border Classes="kbd" IsVisible="{Binding Gesture, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                    <TextBlock Text="{Binding Gesture}" />
+                  </Border>
+                  <Border Classes="kbd" IsVisible="{Binding AltGesture, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+                    <TextBlock Text="{Binding AltGesture}" />
+                  </Border>
+                </WrapPanel>
+              </StackPanel>
+            </Button>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+
+      <Grid ColumnDefinitions="*,Auto" Margin="0,10,0,0">
+        <TextBlock Text="Recent" FontWeight="SemiBold" FontSize="15" Foreground="{DynamicResource BrandPlumBrush}" />
+        <Button Grid.Column="1" Command="{Binding OpenFolderCommand}" VerticalContentAlignment="Center">
+          <StackPanel Orientation="Horizontal" Spacing="6">
+            <PathIcon Width="14" Height="14" Foreground="{DynamicResource BrandApricotDeepBrush}"
+                      Data="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z" />
+            <TextBlock Text="Open folder" FontSize="12" />
+          </StackPanel>
+        </Button>
+      </Grid>
+
+      <TextBlock Classes="description" IsVisible="{Binding !HasRecent}"
+                 Text="Your captures will appear here. Try Custom area above, or press its shortcut." />
+
+      <ItemsControl ItemsSource="{Binding Recent}" IsVisible="{Binding HasRecent}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Columns="4" ColumnSpacing="12" RowSpacing="12" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate x:DataType="views:RecentCaptureItem">
+            <Button Classes="thumb" Command="{Binding Open}" ToolTip.Tip="{Binding Path}" HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch">
+              <StackPanel Spacing="4">
+                <Border Classes="frame" Height="96" BorderThickness="1" BorderBrush="#F0E6DC" Background="{DynamicResource ShellSidebarBrush}"
+                        ClipToBounds="True">
+                  <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" RenderOptions.BitmapInterpolationMode="HighQuality" />
                 </Border>
-                <Button Grid.Column="2" Content="Capture" Command="{Binding Capture}" Classes="accent" />
-              </Grid>
-            </StackPanel>
-          </Border>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
-  </StackPanel>
+                <TextBlock Classes="description" Text="{Binding Caption}" />
+              </StackPanel>
+            </Button>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </StackPanel>
+  </ScrollViewer>
 </UserControl>

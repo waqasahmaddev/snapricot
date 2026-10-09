@@ -39,7 +39,7 @@ internal sealed partial class SaveCaptureDialog : Window
     public void Initialize(CapturedImage image, string suggestedFileName, ScreenshotPreferences locations)
     {
         _locations = locations;
-        _preview = CapturedImageBitmap.ToBitmap(image);
+        _preview = CapturedImageBitmap.ToDisplayBitmap(image);
         Preview.Source = _preview;
         SizeText.Text = $"{image.Width} × {image.Height} px";
         var format = locations.Settings.Format;

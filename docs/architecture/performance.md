@@ -26,6 +26,9 @@ CI runners are noisy, so CI **reports** these numbers in the job summary but doe
 - **Native AOT** (ADR-0006): no JIT at startup, smaller memory, single native exe.
 - **Compiled bindings** everywhere (`AvaloniaUseCompiledBindingsByDefault` plus `x:DataType`).
 - **Lazy everything:** pages are created on first open; module services are singletons resolved on first use.
+- **Two-layer overlay:** the frozen screenshot is a static, immutable `Image` (uploaded to the GPU once and cached by the
+  compositor); the selection, dim, handles, and label are a separate light layer. A pointer move repaints only that layer,
+  and the size label's text is reused while the size is unchanged.
 - **Pre-created overlay:** the capture overlay window is created hidden at startup and only shown on the hotkey (Phase 1).
 - **Workstation, non-concurrent GC** (`ServerGarbageCollector=false`, `ConcurrentGarbageCollection=false`): a smaller
   footprint for a mostly idle desktop app.

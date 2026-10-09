@@ -62,6 +62,14 @@ use `#9A3F14` for accent-colored text.
 In code, always use the resource keys (`BrandApricotBrush`, `BrandApricotDeepBrush`, `BrandPlumBrush`,
 `BrandTintBrush`, `BrandTintTextBrush`), never raw hex values.
 
+## Shape
+
+- **Square edges everywhere** (approved 2026-10-09): buttons, inputs, combo boxes, popups, cards, badges, the capture
+  toolbar, dialogs, and the notification. Set globally in `App.axaml` (`ControlCornerRadius` / `OverlayCornerRadius` = 0);
+  never add a `CornerRadius` above 0 in a view.
+- **Exceptions:** toggle switches stay round (pill), the magnifier is a circle, and the OS draws the window's own corners.
+- **Sidebar selection (style A):** flat, full width, solid Apricot deep with white text; hover is the apricot tint.
+
 ## Voice
 
 Plain, friendly, short. Sentence case. Verbs on buttons ("Copy", "Save", "Capture region"). No exclamation marks in

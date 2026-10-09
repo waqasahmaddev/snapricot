@@ -43,6 +43,7 @@ public partial class App : Application
             }
 
             window.QuitRequested += Quit;
+            _services.GetRequiredService<ShellWindow>().Attach(window);
 
             // Started by Windows at login ("Start with Windows"): stay in the tray until the user opens the window.
             var startInTray = desktop.Args?.Contains(IAutostartService.StartInTrayArgument) == true;

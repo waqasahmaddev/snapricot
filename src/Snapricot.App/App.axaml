@@ -25,6 +25,11 @@
       <SolidColorBrush x:Key="ShellBorderBrush" Color="#F0E6DC" />
       <SolidColorBrush x:Key="ShellMutedTextBrush" Color="#8A7F76" />
 
+      <!-- Square edges everywhere (approved 2026-10-09). Fluent reads these for buttons, text boxes, combo boxes and
+           popups. Toggle switches draw their own pill shape and stay round on purpose. -->
+      <CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+      <CornerRadius x:Key="OverlayCornerRadius">0</CornerRadius>
+
       <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
           <SolidColorBrush x:Key="BrandTintBrush" Color="#FFF1E4" />
@@ -75,6 +80,12 @@
       <Setter Property="Foreground" Value="{DynamicResource ShellMutedTextBrush}" />
     </Style>
 
+    <!-- Light text selection (the solid accent made selected text hard to read). -->
+    <Style Selector="TextBox">
+      <Setter Property="SelectionBrush" Value="#FFD9C2" />
+      <Setter Property="SelectionForegroundBrush" Value="#2E2240" />
+    </Style>
+
     <!-- Every Snapricot window (including module dialogs) gets the app icon; modules don't need to know the asset. -->
     <Style Selector="Window">
       <Setter Property="Icon" Value="/Assets/snapricot.png" />
@@ -84,13 +95,14 @@
     <Style Selector="ListBox.nav">
       <Setter Property="Background" Value="Transparent" />
     </Style>
+    <!-- Flat, full-width items (approved style A): no side margin, no rounding, solid apricot when selected. -->
     <Style Selector="ListBox.nav ListBoxItem">
-      <Setter Property="Margin" Value="10,2" />
-      <Setter Property="Padding" Value="12,9" />
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="Padding" Value="22,11" />
       <Setter Property="Foreground" Value="{StaticResource BrandPlumBrush}" />
     </Style>
     <Style Selector="ListBox.nav ListBoxItem /template/ ContentPresenter#PART_ContentPresenter">
-      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="CornerRadius" Value="0" />
     </Style>
     <Style Selector="ListBox.nav ListBoxItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
       <Setter Property="Background" Value="{DynamicResource BrandTintBrush}" />

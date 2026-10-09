@@ -6,12 +6,12 @@
         Background="Transparent" TransparencyLevelHint="Transparent"
         WindowStartupLocation="Manual">
   <!-- "Copied to clipboard" notification: bottom-right, never takes focus, closes itself after a few seconds. -->
-  <Border Margin="6" Padding="12" CornerRadius="12" Background="White"
+  <Border Margin="6" Padding="12" CornerRadius="0" Background="White"
           BorderBrush="{DynamicResource ShellBorderBrush}" BorderThickness="1" Cursor="Hand">
     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-      <Border Width="64" Height="44" CornerRadius="6" ClipToBounds="True" VerticalAlignment="Center"
+      <Border Width="64" Height="44" CornerRadius="0" ClipToBounds="True" VerticalAlignment="Center"
               BorderBrush="{DynamicResource ShellBorderBrush}" BorderThickness="1" Background="{DynamicResource ShellSidebarBrush}">
-        <Image x:Name="Thumbnail" Stretch="UniformToFill" />
+        <Image x:Name="Thumbnail" Stretch="UniformToFill" RenderOptions.BitmapInterpolationMode="HighQuality" />
       </Border>
       <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
         <TextBlock x:Name="TitleText" FontWeight="SemiBold" FontSize="13" Foreground="{DynamicResource BrandPlumBrush}" />

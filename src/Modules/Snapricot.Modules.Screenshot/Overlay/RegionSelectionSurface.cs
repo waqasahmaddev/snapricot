@@ -10,8 +10,10 @@ using CorePixelPoint = Snapricot.Core.Capture.PixelPoint;
 namespace Snapricot.Modules.Screenshot.Overlay;
 
 /// <summary>
-/// The custom area: draws the frozen display, dims outside the selection, and lets the user draw, move, and resize
-/// the selection with 8 handles. Immediate-mode rendering, so a pointer move costs one repaint and nothing else.
+/// The custom area layer: dims outside the selection and lets the user draw, move, and resize it with 8 handles.
+/// It does <b>not</b> draw the frozen screenshot: that sits underneath in a separate, static <c>Image</c> the compositor
+/// caches on the GPU, so a pointer move only repaints this light layer (a few rectangles and a label).
+/// <paramref name="frozen"/> is only read by the optional magnifier.
 /// </summary>
 internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displayOrigin, bool showMagnifier) : Control
 {
@@ -24,7 +26,8 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
 
     // Brand colors (docs/product/brand.md): Apricot deep accent, Plum label background.
     private static readonly IImmutableSolidColorBrush AccentBrush = new ImmutableSolidColorBrush(Color.FromRgb(0xD9, 0x62, 0x2B));
-    private static readonly IImmutableSolidColorBrush DimBrush = new ImmutableSolidColorBrush(Color.FromArgb(0x80, 0, 0, 0));
+    // Light dim, and only outside a selection: before you draw, the screen looks exactly as it did (like Icecream).
+    private static readonly IImmutableSolidColorBrush DimBrush = new ImmutableSolidColorBrush(Color.FromArgb(0x4D, 0, 0, 0));
     private static readonly IImmutableSolidColorBrush PlumBrush = new ImmutableSolidColorBrush(Color.FromArgb(0xE6, 0x2E, 0x22, 0x40));
     private static readonly ImmutablePen SelectionPen = new(AccentBrush, 1.5, new ImmutableDashStyle([4, 3], 0));
     private static readonly ImmutablePen HandlePen = new(AccentBrush, 1.5);
@@ -36,6 +39,8 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
     private Rect _original;
     private HandleEdges _edges;
     private Point _pointer = new(-1, -1);
+    private string? _labelText;
+    private FormattedText? _label;
 
     private enum Mode
     {
@@ -204,7 +209,7 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
     public override void Render(DrawingContext context)
     {
         var full = new Rect(Bounds.Size);
-        context.DrawImage(frozen, new Rect(frozen.Size), full);
+        context.FillRectangle(Brushes.Transparent, full); // keeps the whole layer hit-testable
 
         if (Selection is { } selection)
         {
@@ -219,10 +224,6 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
             }
 
             DrawSizeLabel(context, selection, full);
-        }
-        else
-        {
-            context.FillRectangle(DimBrush, full); // no crosshair lines: the cross cursor is enough
         }
 
         // Optional (Settings → "Area selection magnifier", off by default). Hidden while just looking at or moving the area.
@@ -246,12 +247,19 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
 
     private void DrawSizeLabel(DrawingContext context, Rect selection, Rect full)
     {
-        var text = Text($"{Math.Round(selection.Width * PixelsPerDip)} × {Math.Round(selection.Height * PixelsPerDip)}", 12);
+        // Reuse the FormattedText while the size is unchanged (moving the area doesn't re-shape text).
+        var value = $"{Math.Round(selection.Width * PixelsPerDip)} × {Math.Round(selection.Height * PixelsPerDip)}";
+        if (value != _labelText || _label is null)
+        {
+            (_labelText, _label) = (value, Text(value, 12));
+        }
+
+        var text = _label;
         var box = new Size(text.Width + 12, text.Height + 6);
         var y = selection.Top - box.Height - 8 >= 0 ? selection.Top - box.Height - 8 : selection.Top + 8;
         var x = Math.Clamp(selection.Left, 0, Math.Max(0, full.Width - box.Width));
 
-        context.DrawRectangle(AccentBrush, null, new Rect(new Point(x, y), box), 4, 4);
+        context.FillRectangle(AccentBrush, new Rect(new Point(x, y), box));
         context.DrawText(text, new Point(x + 6, y + 3));
     }
 
@@ -281,7 +289,7 @@ internal sealed class RegionSelectionSurface(Bitmap frozen, CorePixelPoint displ
         var coordinates = Text(
             string.Create(CultureInfo.InvariantCulture, $"{displayOrigin.X + pixelX}, {displayOrigin.Y + pixelY}"), 11);
         var labelBox = new Rect(lens.X + ((MagnifierSize - coordinates.Width - 10) / 2), lens.Bottom + 6, coordinates.Width + 10, coordinates.Height + 4);
-        context.DrawRectangle(PlumBrush, null, labelBox, 4, 4);
+        context.FillRectangle(PlumBrush, labelBox);
         context.DrawText(coordinates, new Point(labelBox.X + 5, labelBox.Y + 2));
     }
 

@@ -9,9 +9,9 @@
   <StackPanel Margin="22,18,22,22" Spacing="16">
 
     <StackPanel Orientation="Horizontal" Spacing="12">
-      <Border Width="120" Height="76" CornerRadius="6" ClipToBounds="True"
+      <Border Width="120" Height="76" CornerRadius="0" ClipToBounds="True"
               BorderBrush="{DynamicResource ShellBorderBrush}" BorderThickness="1" Background="{DynamicResource ShellSidebarBrush}">
-        <Image x:Name="Preview" Stretch="Uniform" />
+        <Image x:Name="Preview" Stretch="Uniform" RenderOptions.BitmapInterpolationMode="HighQuality" />
       </Border>
       <StackPanel VerticalAlignment="Center" Spacing="4">
         <TextBlock x:Name="SizeText" FontSize="12" Foreground="{DynamicResource ShellMutedTextBrush}" />
@@ -31,14 +31,14 @@
 
     <StackPanel Spacing="6">
       <TextBlock Text="Save to" FontSize="12" Foreground="{DynamicResource ShellMutedTextBrush}" />
-      <Border CornerRadius="8" Padding="10,4,4,4" BorderThickness="1"
+      <Border CornerRadius="0" Padding="10,4,4,4" BorderThickness="1"
               BorderBrush="{DynamicResource ShellBorderBrush}" Background="{DynamicResource ShellSidebarBrush}">
         <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="8">
           <PathIcon Width="16" Height="16" Foreground="{DynamicResource BrandApricotDeepBrush}" VerticalAlignment="Center"
                     Data="M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z" />
           <TextBlock x:Name="FolderText" Grid.Column="1" VerticalAlignment="Center" TextTrimming="PrefixCharacterEllipsis"
                      Foreground="{DynamicResource BrandPlumBrush}" />
-          <Border x:Name="DefaultBadge" Grid.Column="2" Padding="6,1" CornerRadius="4" VerticalAlignment="Center"
+          <Border x:Name="DefaultBadge" Grid.Column="2" Padding="6,1" CornerRadius="0" VerticalAlignment="Center"
                   Background="{DynamicResource BrandTintBrush}">
             <TextBlock Text="Default" FontSize="11" Foreground="{DynamicResource BrandTintTextBrush}" />
           </Border>
@@ -49,7 +49,7 @@
       <CheckBox x:Name="AlwaysBox" Content="Always save here (make this my default folder)" FontSize="12" />
     </StackPanel>
 
-    <Border x:Name="TipPanel" CornerRadius="8" Padding="12,10" Background="{DynamicResource BrandTintBrush}">
+    <Border x:Name="TipPanel" CornerRadius="0" Padding="12,10" Background="{DynamicResource BrandTintBrush}">
       <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
         <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource BrandTintTextBrush}"
                    Text="Copy saves to your default folder automatically. Use Save when you want a different name or folder." />

@@ -98,3 +98,22 @@ Newest first. One entry per session: what changed and what's next.
 - Tests: 165 passing. Settings tabs verified visually via UI Automation screenshots.
 - On the dev machine, `Shift+PrtSc` is already owned by another app; Settings → Hotkeys shows the warning as designed.
 - **Next:** owner tests capture, notification, sound, hotkey rebinding, start with Windows; then the History module.
+
+### 2026-10-09 (later): Square style, exact colors, smoother area dragging
+- **Style (approved option A):** square edges everywhere (Fluent `ControlCornerRadius` / `OverlayCornerRadius` = 0, all view radii 0);
+  sidebar selection flat, full width, solid apricot. Toggle switches stay round. Rules recorded in brand.md ("Shape").
+- **Colors:** the overlay no longer dims on open (the screen looks unchanged); only the outside of an area is dimmed (30%,
+  was 50%). The frozen image is drawn with nearest-neighbor (pixel-exact). Copied and saved files were always exact.
+- **Smoothness:** the frozen screenshot moved to a static immutable `Image` layer (GPU-cached); the selection layer is light
+  and repaints alone on pointer move. Thumbnails use high-quality downscaling.
+- **To confirm by the owner:** drag smoothness in Debug vs Release (`dotnet run -c Release`).
+
+### 2026-10-09 (later): Home screen, hide-on-capture, laptop hotkeys
+- **Home screen (option A):** capture tiles (Custom area primary) with live shortcut badges, plus a Recent strip of the
+  8 newest captures with Open folder. `RecentCaptures` (file lookup + captions) is unit-tested.
+- **Capturing from the app hides the main window** (`IShellWindow.RunHiddenAsync`, Core contract implemented by the shell)
+  and restores it after the capture finishes; hotkeys and the tray don't touch the window.
+- **Laptop alternatives** `Ctrl+Shift+1/2/3` registered next to the PrtSc defaults (ADR-0011 updated).
+- **Text selection** in text boxes is light apricot (`#FFD9C2`) with plum text.
+- Tests: 171 passing. Home and Hotkeys verified via UI Automation screenshots.
+- **Owner to check:** on the laptop, whether Windows' "Print screen opens screen capture" setting was swallowing `Ctrl+PrtSc`.

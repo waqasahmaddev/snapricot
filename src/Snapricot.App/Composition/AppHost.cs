@@ -32,6 +32,8 @@ internal static class AppHost
         ModuleLoader.Load(services, InstalledModules.All);
         services.AddSingleton<HotkeyManager>();
         services.AddSingleton<MainWindowViewModel>();
+        services.AddSingleton<ShellWindow>();
+        services.AddSingleton<IShellWindow>(sp => sp.GetRequiredService<ShellWindow>());
 
         return services.BuildServiceProvider(new ServiceProviderOptions { ValidateOnBuild = true, ValidateScopes = true });
     }

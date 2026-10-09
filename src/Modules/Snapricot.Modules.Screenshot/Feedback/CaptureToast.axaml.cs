@@ -40,7 +40,7 @@ internal sealed partial class CaptureToast : Window
 
     public void Show(CaptureDelivery delivery, Action? onClick)
     {
-        _thumbnail = CapturedImageBitmap.ToBitmap(delivery.Image);
+        _thumbnail = CapturedImageBitmap.ToDisplayBitmap(delivery.Image);
         Thumbnail.Source = _thumbnail;
         _onClick = onClick;
 

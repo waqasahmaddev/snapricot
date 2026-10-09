@@ -18,6 +18,12 @@ public sealed class ScreenshotModule : ISnapricotModule
     public const string WindowGesture = "Alt+PrtSc";
     public const string FullScreenGesture = "Shift+PrtSc";
 
+    // Laptop-friendly alternatives (many laptops have no PrtSc key, or Windows gives it to the Snipping Tool).
+    public const string RegionAltGesture = "Ctrl+Shift+1";
+    public const string WindowAltGesture = "Ctrl+Shift+2";
+    public const string FullScreenAltGesture = "Ctrl+Shift+3";
+    public const string AltSuffix = ".alt";
+
     // Material Design "camera" icon, 24x24 viewBox.
     private const string CameraIcon =
         "M4,4H7L9,2H15L17,4H20A2,2 0 0,1 22,6V18A2,2 0 0,1 20,20H4A2,2 0 0,1 2,18V6A2,2 0 0,1 4,4" +
@@ -53,6 +59,9 @@ public sealed class ScreenshotModule : ISnapricotModule
             .AddHotkey(new HotkeyBinding(CaptureCoordinator.RegionSource, "Capture custom area", RegionGesture, Region))
             .AddHotkey(new HotkeyBinding(CaptureCoordinator.WindowSource, "Capture active window", WindowGesture, Window))
             .AddHotkey(new HotkeyBinding(CaptureCoordinator.FullScreenSource, "Capture full screen", FullScreenGesture, FullScreen))
+            .AddHotkey(new HotkeyBinding(CaptureCoordinator.RegionSource + AltSuffix, "Capture custom area (alternative)", RegionAltGesture, Region))
+            .AddHotkey(new HotkeyBinding(CaptureCoordinator.WindowSource + AltSuffix, "Capture active window (alternative)", WindowAltGesture, Window))
+            .AddHotkey(new HotkeyBinding(CaptureCoordinator.FullScreenSource + AltSuffix, "Capture full screen (alternative)", FullScreenAltGesture, FullScreen))
             .AddSettingsTab(new SettingsTab(SettingsTabs.SaveTo, "Save to", 100))
             .AddSettingsSection(new SettingsSection(SettingsTabs.SaveTo, $"{ModuleId}.settings.save-to", 100,
                 sp => new SaveToSettingsView { DataContext = sp.GetRequiredService<SaveToSettingsViewModel>() }))

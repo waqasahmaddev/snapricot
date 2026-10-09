@@ -28,7 +28,9 @@ The full palette, logo, and usage rules are in **[brand.md](brand.md)**. In the 
 
 ### 1. Custom area (region capture, approved 2026-10-09)
 Opened by `Ctrl+PrtSc`, the tray, or the Capture button. Inspired by Icecream Screen Recorder's area selection.
-- **Freeze:** every display is captured first; one frameless, topmost window per display shows its still image, dimmed.
+- **Freeze:** every display is captured first; one frameless, topmost window per display shows its still image,
+  **undimmed and pixel-for-pixel** (no smoothing), so the screen looks exactly as it did. Once an area exists, only the
+  outside gets a light 30% dim.
 - **Draw:** drag to draw the area with the cross cursor. The optional round **magnifier** (15×15 px at 8×, with pixel
   coordinates) helps you start on the exact pixel. A click without a drag does nothing.
 - **Adjust** (the area stays editable after you release):
@@ -88,8 +90,17 @@ Sidebar bottom group: **Settings**, **About**. Tabs are contributed by modules (
 - Bottom-right of the screen; never takes focus; closes after 4 s (stays open while hovered).
 - Thumbnail, "Copied and saved" / "Copied to clipboard" / "Saved", file name. Click: show the file in its folder.
 
+### 0. Home screen (approved option A, 2026-10-09)
+- **Capture** heading; three square tiles: **Custom area** (solid apricot, primary), **Active window**, **Full screen**.
+  Each tile shows its current shortcuts (primary and laptop alternative), live from `HotkeyManager`.
+- Clicking a tile **hides the main window**, captures, and shows the window again after Copy, Save, or cancel.
+  Hotkeys and the tray never hide or show the window.
+- **Recent:** the 8 newest images in the default folder (thumbnails decoded off the UI thread at 320 px), captions
+  `13:34 · PNG` / `Yesterday · PNG` / `Oct 8 · JPG`; click opens the file; **Open folder** button; empty-state text.
+  Refreshes after every save and when the default folder changes.
+
 ### 5. Main window (style of Icecream Screen Recorder)
-- **Light sidebar** (warm off-white, apricot selection): logo and name; module pages (History, Screenshot,
+- **Light sidebar** (warm off-white; selection is flat, full width, solid apricot, no rounding): logo and name; module pages (History, Screenshot,
   Record screen *Soon*, Copy text, Pinned); and at the bottom Modules, Settings, Help. No color picker (dropped on 2026-10-09).
 - **History page**: tabs All / Screenshots / Recordings, search, grid/list toggle, items grouped **Today / Earlier**. List rows: thumbnail, file name,
   resolution, size, relative time, actions (copy, edit, open folder, more). Footer: save folder and capture count.

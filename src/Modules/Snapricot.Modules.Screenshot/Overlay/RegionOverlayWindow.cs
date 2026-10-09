@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Snapricot.Core.Capture;
 using Snapricot.Modules.Screenshot.Capture;
 
@@ -18,6 +19,7 @@ internal sealed class RegionOverlayWindow : Window
     private readonly FrozenDisplay _display;
     private readonly Action<RegionSelection?> _done;
     private readonly RegionSelectionSurface _surface;
+    private readonly Image _background;
     private readonly CustomAreaToolbar _toolbar = new() { IsVisible = false };
     private double? _presetAspect;
 
@@ -38,8 +40,12 @@ internal sealed class RegionOverlayWindow : Window
         Width = bounds.Width / display.Info.Scale;
         Height = bounds.Height / display.Info.Scale;
 
-        _surface = new RegionSelectionSurface(
-            CapturedImageBitmap.ToBitmap(display.Image), new Core.Capture.PixelPoint(bounds.X, bounds.Y), showMagnifier);
+        var frozen = CapturedImageBitmap.ToDisplayBitmap(display.Image);
+        _surface = new RegionSelectionSurface(frozen, new Core.Capture.PixelPoint(bounds.X, bounds.Y), showMagnifier);
+
+        // The frozen screenshot is a static layer, drawn pixel-for-pixel (no smoothing, so colors and text stay exact).
+        _background = new Image { Source = frozen, Stretch = Stretch.Fill, IsHitTestVisible = false };
+        RenderOptions.SetBitmapInterpolationMode(_background, BitmapInterpolationMode.None);
         _surface.SelectionChanged += UpdateToolbar;
         _surface.Confirmed += () => Finish(CaptureIntent.Copy);
         _surface.Cancelled += () => _done(null);
@@ -65,7 +71,7 @@ internal sealed class RegionOverlayWindow : Window
 
         var layer = new Canvas();
         layer.Children.Add(_toolbar);
-        Content = new Panel { Children = { _surface, layer } };
+        Content = new Panel { Children = { _background, _surface, layer } };
 
         // Tunnel so arrow keys nudge the area instead of moving focus between toolbar buttons.
         AddHandler(KeyDownEvent, OnPreviewKeyDown, RoutingStrategies.Tunnel);
