@@ -7,6 +7,12 @@
 <p align="center"><b>Snap it. Mark it. Share it.</b><br/>
 A fast, free, open-source screenshot and annotation tool. <i>(pronounced SNAP-ri-kot)</i></p>
 
+<p align="center">
+  <a href="https://waqasahmaddev.github.io/snapricot/">Website</a> ·
+  <a href="https://github.com/waqasahmaddev/snapricot/releases">Download</a> ·
+  <a href="https://waqasahmaddev.github.io/snapricot/docs/index.html">Docs</a>
+</p>
+
 ---
 
 > **Status:** early development (Phase 1 of the [roadmap](docs/plan/roadmap.md): Windows capture works). v1.0 targets Windows; macOS follows in v2.0.

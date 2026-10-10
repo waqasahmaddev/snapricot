@@ -41,7 +41,8 @@
 - Pages pass `site/` links check; edit the HTML directly. Keep the site honest: features not shipped are labelled
   Next / Planned / Later. Update `features.html`, `docs/*.html` and the Download text when behaviour changes.
 - The Download page links to the Releases list, not `/releases/latest`, because `latest` ignores pre-releases.
-- Still to do: demo GIF and screenshots on Home, social preview image, custom domain later.
+- Social preview image made: `docs/brand/snapricot-social-preview.png` (owner uploads it in repo Settings, General, Social preview).
+- Still to do: demo GIF and screenshots on Home, custom domain later.
 
 ## What works now (Windows)
 
