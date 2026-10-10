@@ -1,0 +1,71 @@
+name: Release
+
+# Push a tag like v0.1.0 (or v0.2.0-beta.1 for a pre-release) and this builds the
+# Native AOT Windows binary and publishes it as a GitHub Release.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  release-windows:
+    name: Build and publish release (Windows)
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: global.json
+
+      - name: Test
+        run: dotnet test --solution Snapricot.slnx -c Release
+
+      - name: Publish (Native AOT)
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart('v')
+          dotnet publish src/Snapricot.App -c Release -r win-x64 -p:Version=$version -o artifacts/publish/win-x64
+          if ($LASTEXITCODE -ne 0) { throw "publish failed" }
+
+      - name: Package
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $name = "Snapricot-${{ github.ref_name }}-win-x64"
+          New-Item -ItemType Directory -Force artifacts/release | Out-Null
+          $stage = "artifacts/stage/$name"
+          New-Item -ItemType Directory -Force $stage | Out-Null
+          Get-ChildItem artifacts/publish/win-x64 -Recurse -File |
+            Where-Object Extension -ne '.pdb' |
+            ForEach-Object {
+              $rel = $_.FullName.Substring((Resolve-Path artifacts/publish/win-x64).Path.Length).TrimStart('\')
+              $dest = Join-Path $stage $rel
+              New-Item -ItemType Directory -Force (Split-Path $dest) | Out-Null
+              Copy-Item $_.FullName $dest
+            }
+          $zip = "artifacts/release/$name.zip"
+          Compress-Archive -Path "$stage/*" -DestinationPath $zip
+          $hash = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLower()
+          "$hash  $name.zip" | Out-File "$zip.sha256" -Encoding ascii
+          Get-ChildItem artifacts/release
+
+      - name: Create GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = "${{ github.ref_name }}"
+          $args = @($tag, "--title", "Snapricot $tag", "--generate-notes", "--verify-tag")
+          if ($tag -match '-') { $args += "--prerelease" }
+          gh release create @args (Get-ChildItem artifacts/release/* | ForEach-Object FullName)
+          if ($LASTEXITCODE -ne 0) { throw "gh release create failed" }
