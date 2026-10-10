@@ -20,3 +20,4 @@ An ADR captures one significant decision: the context, what we chose, and what i
 | [0010](0010-open-core-pro-edition.md) | Open-core model for a possible Pro edition | Proposed | 2026-10-09 |
 | [0011](0011-printscreen-default-hotkeys.md) | Default hotkeys use PrintScreen combinations | Accepted | 2026-10-09 |
 | [0012](0012-json-settings-store.md) | User settings in one JSON file, one section per module | Accepted | 2026-10-09 |
+| [0013](0013-tag-driven-github-releases.md) | Tag-driven GitHub Releases | Accepted | 2026-10-10 |

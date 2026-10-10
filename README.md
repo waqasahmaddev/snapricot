@@ -11,6 +11,16 @@ A fast, free, open-source screenshot and annotation tool. <i>(pronounced SNAP-ri
 
 > **Status:** early development (Phase 1 of the [roadmap](docs/plan/roadmap.md): Windows capture works). v1.0 targets Windows; macOS follows in v2.0.
 
+## Download
+
+Get the latest build from the [**Releases page**](https://github.com/waqasahmaddev/snapricot/releases)
+(Windows 10/11, 64-bit). Download `Snapricot-<version>-win-x64.zip`, extract it, and run `Snapricot.exe`.
+Early versions are marked **Pre-release**.
+
+> **Windows SmartScreen warning:** builds are not code-signed yet, so Windows may show "Windows protected your PC".
+> Click **More info**, then **Run anyway**. To verify your download, compare its SHA-256 with the `.sha256` file on the
+> release (`Get-FileHash Snapricot-<version>-win-x64.zip`). Code signing is planned.
+
 ## Planned features
 
 - Region, window, and full-screen capture with global hotkeys

@@ -33,7 +33,7 @@ Tick items here as they're done, and record progress in [STATUS.md](../STATUS.md
 - [ ] `Snapricot.Modules.History`: virtualized list/grid, thumbnail cache, search, tabs
 - [x] Settings shell with per-module tabs/sections; hotkey rebinding; start with Windows; PNG/JPG (done early, 2026-10-09)
 - [ ] Velopack installer and auto-update (ADR-0009)
-- [ ] Code signing: apply to SignPath.io (free for OSS) or use Azure Trusted Signing
+- [ ] Code signing (to remove the SmartScreen warning; release workflow already exists, ADR-0013): apply to SignPath.io (free for OSS) or use Azure Trusted Signing
 - [ ] App icon (.ico), About page, first-run experience
 - [ ] Closed beta with 5–10 people
 

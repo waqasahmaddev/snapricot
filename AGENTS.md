@@ -54,7 +54,7 @@ Without it, `dotnet build`/`test`/`run` all still work; only the AOT publish fai
 8. Architecture tests in `tests/Snapricot.Architecture.Tests` enforce rules 1–2. Register new modules there.
 9. **Settings records use `{ get; set; }`, never `init`** (source-generated JSON drops `init` defaults; ADR-0012).
 10. **Agents never commit or push.** The owner commits. The repo belongs to the personal GitHub account `waqasahmaddev`
-   (local identity and `origin` are preconfigured); never use the office account the `gh` CLI may be logged in as.
+   (local identity and `origin` are preconfigured); never use any other GitHub account the `gh` CLI may be logged in as.
 
 ## Code conventions
 

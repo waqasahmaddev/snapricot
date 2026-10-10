@@ -12,14 +12,12 @@ Decided on 2026-10-09. Everything below is free except the optional domain.
 - Open-source code signing programs (e.g. SignPath Foundation) require a public OSS repository.
 - A future Pro edition doesn't require the core to be private (see [business-model.md](business-model.md)).
 
-**Where:** the owner's **personal** account, **`github.com/waqasahmaddev/snapricot`**, the same as the `flow` project.
-Never use the office account (`Waqas-Ahmad_fust`), which the `gh` CLI on the dev machine is logged in as.
+**Where:** the owner's **personal** account, **`github.com/waqasahmaddev/snapricot`**.
 
-The local repo is already configured like `flow`:
+The local repo is already configured:
 
 | Setting | Value |
 |---|---|
-| `user.name` / `user.email` (local) | `Waqas Ahmad` / `waqas.ahmad6253@gmail.com` |
 | `origin` | `git@github-personal:waqasahmaddev/snapricot.git` (the `github-personal` SSH alias) |
 
 **First push (the owner does this):** create an empty public repo named `snapricot` on github.com (signed in as
@@ -63,6 +61,12 @@ Repository settings after the push: protect `main` (require PRs and green CI), e
 | Code signing (Windows) | SignPath Foundation (OSS program), otherwise Azure Trusted Signing (~$10/month) | Free or low cost |
 
 Total until launch: **$0**. After launch: about **$15 per year** for the domain (plus ~$10/month only if paid signing is needed).
+
+## Release process (live since 2026-10-10)
+
+`git tag vX.Y.Z` and `git push origin vX.Y.Z` runs `.github/workflows/release.yml`, which publishes the zip and a
+checksum to GitHub Releases (a `-beta.N` style tag becomes a pre-release). See [ADR-0013](../adr/0013-tag-driven-github-releases.md).
+First release: `v0.1.0-beta.1`. Builds are unsigned for now (SmartScreen warning, documented in the README).
 
 ## If a Pro edition happens
 

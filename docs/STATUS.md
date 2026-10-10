@@ -4,7 +4,7 @@
 
 **Current phase:** Phase 1 (Capture): feature-complete for Windows, being polished from the owner's hands-on testing
 **Next phase:** History module (Today/Earlier grid), then Phase 2 (annotation editor)
-**Last updated:** 2026-10-09 (end of the kickoff session)
+**Last updated:** 2026-10-10 (repo protection and first release)
 
 ## Start here (next session)
 
@@ -14,6 +14,23 @@
    last open bug report.
 4. Git: all code is committed by the owner (last commit `01f6a06`, "no black screen on capture"). Agents never commit;
    the owner commits and pushes from Rider using the personal account (`git@github-personal:waqasahmaddev/snapricot.git`).
+
+## Repo protection and releases (set up 2026-10-10)
+
+- **Ruleset "Protect main branch"** (Settings, Rules): active on the default branch. Needs a PR, 1 approval, code-owner
+  review (`.github/CODEOWNERS`, owner `@waqasahmaddev`), stale approvals dismissed, status checks `Build and test
+  (windows-latest)` and `Build and test (macos-latest)` required, force pushes and deletion blocked.
+  **Bypass: Repository admin (always)**, so the owner can still push and merge their own PRs.
+- **Tag ruleset** protects `v*` tags (no deletion or force push).
+- **Actions settings:** fork PR workflows need approval; workflow token is read-only by default.
+- **Security:** secret scanning, push protection, Dependabot alerts and security updates are on; 2FA is on for the account.
+- **Releases are automatic** ([ADR-0013](adr/0013-tag-driven-github-releases.md)): `git tag vX.Y.Z` then
+  `git push origin vX.Y.Z` runs `.github/workflows/release.yml` (tests, Native AOT publish, zip + `.sha256`, GitHub
+  Release; a tag with a hyphen is a pre-release). Downloads: https://github.com/waqasahmaddev/snapricot/releases
+- **First release `v0.1.0-beta.1`** (2026-10-10): zip about 16 MB, CI job about 2 min. Unsigned, so Windows shows the
+  SmartScreen "Windows protected your PC" screen (More info, then Run anyway). The README Download section explains this.
+- Required check names must match the CI job names exactly (`Build and test (<os>)`); renaming a job in `ci.yml`
+  would block every PR until the ruleset is updated.
 
 ## What works now (Windows)
 
@@ -38,7 +55,10 @@
 - [ ] Owner to delete test captures the agent made on the Desktop (`2026-10-09_16-07-18.png`, `2026-10-09_16-09-56.png`).
 - [ ] Install the VS "Desktop development with C++" workload to verify the AOT build locally (CI already builds it).
 - [ ] Record the first AOT startup / memory / size numbers from a CI job summary in performance.md (sign-in needed to view).
-- [ ] Repo settings: protect `main`, add topics, enable Discussions, social preview image.
+- [x] Repo protection done 2026-10-10 (see "Repo protection and releases" below). Still open: add topics, enable Discussions, social preview image.
+- [ ] **Code signing** to remove the SmartScreen warning: apply to the SignPath Foundation OSS programme (signpath.org, repo `waqasahmaddev/snapricot`); fallback Azure Trusted Signing (~$10/month). When approved, add a signing step to `.github/workflows/release.yml`.
+- [ ] Test the `v0.1.0-beta.1` download end to end (it ran after "Run anyway"; confirm capture works from the zip build).
+- [ ] Publish to winget / Scoop once releases are signed or stable.
 - [ ] Docs: `docs/architecture/dpi-and-multi-monitor.md` design note (roadmap item).
 - [ ] Check domain availability (snapricot.app / snapricot.com); buy before the v1.0 launch, not now.
 
@@ -60,7 +80,7 @@ Scripts used this session live in the agent scratchpad and are disposable; the u
 
 ## Decisions log (summary)
 
-ADRs 0001–0012 in [docs/adr](adr/README.md). Key product decisions this session: name Snapricot; Windows first;
+ADRs 0001–0013 in [docs/adr](adr/README.md). Key product decisions this session: name Snapricot; Windows first;
 light theme with square edges; Icecream-style area selection ("Custom area"); Copy auto-saves; color picker dropped;
 PrtSc + laptop hotkeys; free/MIT now, open-core Pro later; public repo `waqasahmaddev/snapricot`.
 
@@ -197,3 +217,12 @@ downward; the bottom entry is the latest. Future sessions: add one entry per ses
   excludes the main window from capture (it stays on screen, mouse stays over Snapricot), the screen is frozen, the overlay
   appears, and the main window hides behind it (`IShellCaptureScope.HideWindow`, via the overlay's `onShown`).
 - Note: PrintWindow can't read transparent windows (always black), so it is not a valid way to inspect overlays.
+
+### 2026-10-10: Repo protection, CODEOWNERS and the first automatic release
+- Added `.github/CODEOWNERS`, a branch ruleset for `main`, a tag ruleset for `v*`, and Actions/security settings
+  (details in "Repo protection and releases" above). Owner did all GitHub settings by hand, guided step by step.
+- Wrote `.github/workflows/release.yml` (ADR-0013). Pushed tag `v0.1.0-beta.1`; the run succeeded first time and the
+  pre-release has the zip (about 16 MB) and `.sha256`. Downloaded zip runs after SmartScreen "Run anyway".
+- Docs updated: README (Download section with the SmartScreen note), CHANGELOG, hosting-and-distribution.md, ADR-0013 and index.
+- **Next:** apply to SignPath Foundation for code signing; then continue with the History module.
+- The agent changed files only; the owner commits and pushes (rule 10).
