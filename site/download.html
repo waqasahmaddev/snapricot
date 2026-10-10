@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download - Snapricot</title>
+<meta name="description" content="Download the Snapricot early preview for Windows 10 and 11, with install steps and how to get past the SmartScreen warning.">
+<meta name="theme-color" content="#D9622B">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site"><div class="wrap">
+<a class="brand" href="index.html"><img src="assets/logo.svg" alt="">Snapricot</a>
+<nav class="main" aria-label="Main"><a href="index.html">Home</a><a href="features.html">Features</a><a href="download.html" aria-current="page">Download</a><a href="docs/index.html">Docs</a><a href="https://github.com/waqasahmaddev/snapricot">GitHub</a></nav>
+</div></header>
+<main id="main">
+
+<section><div class="wrap">
+<h1 style="font-size:40px;margin:0 0 8px">Download Snapricot</h1>
+<p class="sub">Early preview for Windows. It is free, and the whole thing is open source.</p>
+
+<div class="card" style="max-width:640px">
+<h3>Windows 10 / 11 (64-bit)</h3>
+<p>Get the latest <code>Snapricot-&lt;version&gt;-win-x64.zip</code> from the Releases page. Versions marked <span class="pill">Pre-release</span> are early previews.</p>
+<p style="margin-top:16px"><a class="btn" href="https://github.com/waqasahmaddev/snapricot/releases">Go to the Releases page</a></p>
+</div>
+
+<h2 style="margin-top:40px">Install</h2>
+<ol>
+<li>Download the <code>.zip</code> file from the latest release (under <strong>Assets</strong>).</li>
+<li>Right-click the zip and choose <strong>Extract All</strong>.</li>
+<li>Open the extracted folder and run <code>Snapricot.exe</code>. There is no installer yet, so keep the folder somewhere permanent.</li>
+</ol>
+
+<h2>Windows shows "Windows protected your PC"</h2>
+<div class="callout"><strong>This is expected.</strong> Snapricot is not code-signed yet, and Windows SmartScreen warns about new, unsigned apps. Click <strong>More info</strong>, then <strong>Run anyway</strong>.</div>
+<p>Code signing is planned and will remove the warning over time. Meanwhile you can verify your download:</p>
+<pre><code>Get-FileHash .\Snapricot-&lt;version&gt;-win-x64.zip -Algorithm SHA256</code></pre>
+<p>Compare the result with the contents of the <code>.sha256</code> file on the same release. If they match, the file is the one we published. You can also build it yourself from source.</p>
+
+<h2>Requirements</h2>
+<ul>
+<li>Windows 10 (version 2004 or later) or Windows 11, 64-bit</li>
+<li>About 16 MB of disk space</li>
+</ul>
+
+<h2>Build from source</h2>
+<p>Requires the <a href="https://dotnet.microsoft.com/download">.NET 10 SDK</a>.</p>
+<pre><code>git clone https://github.com/waqasahmaddev/snapricot.git
+cd snapricot
+dotnet run --project src/Snapricot.App</code></pre>
+
+<h2>Uninstall</h2>
+<p>Turn off Start with Windows in Settings first if you enabled it, then delete the folder. Settings live in <code>%APPDATA%\Snapricot</code>; delete that too for a clean removal.</p>
+</div></section>
+
+</main>
+<footer class="site"><div class="wrap">
+<div><strong>Snapricot</strong> &middot; Snap it. Mark it. Share it.<br>Free and open source under the MIT licence. No ads, no account, no telemetry.</div>
+<ul>
+<li><a href="download.html">Download</a></li>
+<li><a href="docs/index.html">Docs</a></li>
+<li><a href="https://github.com/waqasahmaddev/snapricot">Source</a></li>
+<li><a href="https://github.com/waqasahmaddev/snapricot/issues">Report a bug</a></li>
+</ul>
+</div></footer>
+</body>
+</html>

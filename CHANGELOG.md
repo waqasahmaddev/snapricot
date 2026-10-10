@@ -6,6 +6,7 @@ All notable changes to this project are documented here. The format follows
 ## [Unreleased]
 
 ### Added
+- Project website in `site/` (home, features, download, docs) deployed to GitHub Pages by `.github/workflows/pages.yml`.
 - Release automation: pushing a `v*` tag builds the Native AOT Windows zip and publishes a GitHub Release (ADR-0013). `CODEOWNERS` added.
 - Settings page (General, Save to, Hotkeys) built from module-contributed tabs and sections; hotkey rebinding with conflict detection.
 - Start with Windows (opens in the tray), capture notification, optional shutter sound, PNG or JPG, open folder after saving.

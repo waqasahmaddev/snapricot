@@ -22,7 +22,7 @@ Goals: real users, plus a portfolio piece that shows engineering depth.
 ## Assets to prepare
 
 - [ ] README: logo, tagline, **demo GIF at the top**, download button, features, comparison table, badges, architecture diagram
-- [ ] Landing page on GitHub Pages: hero GIF, three feature blocks, download, FAQ (SmartScreen, privacy)
+- [x] Landing page on GitHub Pages (`site/`, first version 2026-10-10: features, download, docs, FAQ with SmartScreen and privacy). Still to add: hero GIF and screenshots
 - [ ] 30–45 s demo video; 5 screenshots; a social preview image (1280×640)
 - [ ] Release notes for v1.0
 

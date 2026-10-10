@@ -32,6 +32,17 @@
 - Required check names must match the CI job names exactly (`Build and test (<os>)`); renaming a job in `ci.yml`
   would block every PR until the ruleset is updated.
 
+## Website (added 2026-10-10)
+
+- Static site in `site/` (plain HTML/CSS, no build step): Home, Features, Download, and Docs (Overview, Getting
+  started, Hotkeys, Copy/save/files, Settings, FAQ). Brand colours, light/dark aware, mobile friendly.
+- Deployed by `.github/workflows/pages.yml` when `site/**` changes on `main`. **One-time setup (owner):** repo
+  Settings, Pages, Source = **GitHub Actions**. Live URL then: https://waqasahmaddev.github.io/snapricot/
+- Pages pass `site/` links check; edit the HTML directly. Keep the site honest: features not shipped are labelled
+  Next / Planned / Later. Update `features.html`, `docs/*.html` and the Download text when behaviour changes.
+- The Download page links to the Releases list, not `/releases/latest`, because `latest` ignores pre-releases.
+- Still to do: demo GIF and screenshots on Home, social preview image, custom domain later.
+
 ## What works now (Windows)
 
 - **Capture:** custom area (8 handles, move, nudge, exact W×H, aspect presets/lock, light toolbar: Save · Copy · Cancel),
@@ -223,6 +234,7 @@ downward; the bottom entry is the latest. Future sessions: add one entry per ses
   (details in "Repo protection and releases" above). Owner did all GitHub settings by hand, guided step by step.
 - Wrote `.github/workflows/release.yml` (ADR-0013). Pushed tag `v0.1.0-beta.1`; the run succeeded first time and the
   pre-release has the zip (about 16 MB) and `.sha256`. Downloaded zip runs after SmartScreen "Run anyway".
+- Built the website in `site/` and the Pages workflow (see "Website" above); needs Pages enabled by the owner.
 - Docs updated: README (Download section with the SmartScreen note), CHANGELOG, hosting-and-distribution.md, ADR-0013 and index.
 - **Next:** apply to SignPath Foundation for code signing; then continue with the History module.
 - The agent changed files only; the owner commits and pushes (rule 10).
