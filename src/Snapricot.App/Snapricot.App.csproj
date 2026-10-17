@@ -11,7 +11,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <BuiltInComInteropSupport>false</BuiltInComInteropSupport>
 
-    <!-- Performance budgets (ADR-0006, docs/architecture/performance.md) -->
+    <!-- Performance budgets (ADR-0006) -->
     <PublishAot>true</PublishAot>
     <TieredPGO>true</TieredPGO>
     <ServerGarbageCollector>false</ServerGarbageCollector>

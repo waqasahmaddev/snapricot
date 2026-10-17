@@ -16,7 +16,7 @@ function RoundPen($hex, $width) {
     $pen
 }
 
-# Palette (docs/product/brand.md)
+# Palette (brand colors)
 $Apricot = '#F4943C'; $Deep = '#D9622B'; $Flesh = '#FFC98F'; $Leaf = '#3E9B6A'; $Stem = '#6B4A2B'
 
 function Draw-Logo([System.Drawing.Graphics]$g, [bool]$small) {

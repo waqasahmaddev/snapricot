@@ -5,7 +5,7 @@
         Width="460" SizeToContent="Height" CanResize="False"
         WindowStartupLocation="CenterScreen" Topmost="True" ShowInTaskbar="True"
         Background="{DynamicResource ShellBackgroundBrush}">
-  <!-- Approved mockup: docs/product/design.md, "Save dialog". -->
+  <!-- Approved mockup: Save dialog. -->
   <StackPanel Margin="22,18,22,22" Spacing="16">
 
     <StackPanel Orientation="Horizontal" Spacing="12">

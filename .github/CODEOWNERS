@@ -6,7 +6,6 @@
 # Architecture-critical areas
 /src/Snapricot.Core/        @waqasahmaddev
 /tests/Snapricot.Architecture.Tests/ @waqasahmaddev
-/docs/adr/                  @waqasahmaddev
 
 # CI and repo configuration
 /.github/                   @waqasahmaddev

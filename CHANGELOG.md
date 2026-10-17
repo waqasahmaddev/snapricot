@@ -17,5 +17,4 @@ All notable changes to this project are documented here. The format follows
 - Shell with a module-driven sidebar, lazy pages, and a tray icon.
 - `--measure-startup` diagnostics switch.
 - Unit tests, architecture tests, and CI on Windows and macOS.
-- Documentation: vision, design, brand, roadmap, marketing, hosting, business model, architecture, performance budgets, ADR-0001 to ADR-0010.
 - Brand: apricot "snapped slice" logo (SVG plus a small mark), Plum and Apricot palette as app resources, and a logo render script.

@@ -28,7 +28,7 @@ internal sealed class RegionSelectionSurface : Control
     private const double MagnifierOffset = 24;
     private const int MagnifierPixels = 15; // odd, so there's a center pixel
 
-    // Brand colors (docs/product/brand.md): Apricot deep accent, Plum label background.
+    // Brand colors: Apricot deep accent, Plum label background.
     private static readonly IImmutableSolidColorBrush AccentBrush = new ImmutableSolidColorBrush(Color.FromRgb(0xD9, 0x62, 0x2B));
     // Light dim, and only outside a selection: before you draw, the screen looks exactly as it did (like Icecream).
     private static readonly IImmutableSolidColorBrush DimBrush = new ImmutableSolidColorBrush(Color.FromArgb(0x4D, 0, 0, 0));

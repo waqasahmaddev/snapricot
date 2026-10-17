@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Enforces the dependency rules in docs/architecture/overview.md. Add every new module project here. -->
+  <!-- Enforces the dependency rules in ADR-0004 and ADR-0005. Add every new module project here. -->
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <OutputType>Exe</OutputType>

@@ -4,7 +4,7 @@ namespace Snapricot.Modules.Screenshot.Capture;
 
 /// <summary>
 /// Reads and updates <see cref="ScreenshotSettings"/>, and decides where captures go.
-/// Saving rules (docs/product/design.md, "Saving rules"): no folder chosen = <c>Pictures\Snapricot</c>; a folder chosen with
+/// Saving rules: no folder chosen = <c>Pictures\Snapricot</c>; a folder chosen with
 /// "Always save here" becomes the default; a default that no longer exists (unplugged drive) falls back to <c>Pictures\Snapricot</c>.
 /// </summary>
 public sealed class ScreenshotPreferences(ISettingsStore store, string fallbackFolder)

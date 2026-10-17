@@ -4,7 +4,7 @@
              RequestedThemeVariant="Light">
 
   <!--
-    Brand palette: docs/product/brand.md is the source of truth. Modules must use these keys
+    Brand palette: this file is the source of truth. Modules must use these keys
     (DynamicResource) rather than hardcoded hex values, so a palette change is one edit here.
   -->
   <Application.Resources>

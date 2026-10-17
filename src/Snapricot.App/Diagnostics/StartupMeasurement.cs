@@ -8,7 +8,7 @@ namespace Snapricot.App.Diagnostics;
 
 /// <summary>
 /// <c>Snapricot --measure-startup result.json</c> writes the time from process start until the main window
-/// is open, plus memory, then exits. CI uses it to track the performance budgets (docs/architecture/performance.md).
+/// is open, plus memory, then exits. CI uses it to track the performance budgets.
 /// </summary>
 internal static class StartupMeasurement
 {

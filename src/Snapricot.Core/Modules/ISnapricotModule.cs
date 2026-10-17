@@ -2,7 +2,7 @@ namespace Snapricot.Core.Modules;
 
 /// <summary>
 /// A self-contained feature (Screenshot, OCR, Pin, ...). A module only describes what it adds;
-/// the shell decides when and where to show it. See docs/architecture/overview.md and ADR-0004.
+/// the shell decides when and where to show it. See ADR-0004.
 /// </summary>
 public interface ISnapricotModule
 {

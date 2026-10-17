@@ -54,7 +54,7 @@ jobs:
       - name: Publish (Native AOT)
         run: dotnet publish src/Snapricot.App -c Release -r win-x64 -o artifacts/publish/win-x64
 
-      # Budgets are reported, not gated: CI runners are noisy (docs/architecture/performance.md).
+      # Budgets are reported, not gated: CI runners are noisy (see the performance budgets in the project notes).
       # The step itself must succeed, so a broken measurement is visible instead of silently skipped.
       - name: Measure startup
         shell: pwsh

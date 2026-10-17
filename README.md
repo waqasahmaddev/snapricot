@@ -43,7 +43,6 @@ Early versions are marked **Pre-release**.
 | Idle memory | < 60 MB |
 | Hotkey to overlay | < 100 ms |
 
-Details: [docs/architecture/performance.md](docs/architecture/performance.md)
 
 ## Architecture
 
@@ -54,8 +53,6 @@ in-process event bus, and OS code lives behind platform interfaces.
 Snapricot.App ──► Snapricot.Modules.* ──► Snapricot.Core ◄── Snapricot.Platform.{Windows,MacOS}
 ```
 
-- [Architecture overview](docs/architecture/overview.md) · [Adding a module](docs/architecture/adding-a-module.md)
-- [Architecture decision records](docs/adr/README.md)
 
 ## Build from source
 
