@@ -15,7 +15,6 @@ and simple enough to need no manual.
 ## Business model
 
 Free and open source (MIT) now. If it gains traction, an optional Pro edition with extra modules (open core).
-See [business-model.md](../plan/business-model.md).
 
 ## Problem
 

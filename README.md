@@ -15,7 +15,7 @@ A fast, free, open-source screenshot and annotation tool. <i>(pronounced SNAP-ri
 
 ---
 
-> **Status:** early development (Phase 1 of the [roadmap](docs/plan/roadmap.md): Windows capture works). v1.0 targets Windows; macOS follows in v2.0.
+> **Status:** early development (Phase 1: Windows capture works). v1.0 targets Windows; macOS follows in v2.0.
 
 ## Download
 

@@ -50,4 +50,4 @@ public sealed class OcrModule : ISnapricotModule
 - [ ] All `.axaml` files use `x:DataType` (compiled bindings)
 - [ ] Logging uses `[LoggerMessage]`
 - [ ] Startup budget unchanged (CI's startup measurement)
-- [ ] Docs: update STATUS.md; add an ADR if you made a significant decision
+- [ ] Docs: add an ADR if you made a significant decision

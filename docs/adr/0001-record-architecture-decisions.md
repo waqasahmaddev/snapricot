@@ -11,11 +11,11 @@ live only in chat history get lost and then re-argued.
 ## Decision
 
 Record every significant decision as an ADR in `docs/adr/`, using the template in `0000-template.md`. Keep
-`docs/STATUS.md` as the living "where are we" page, and `AGENTS.md` as the entry point for any new session.
+a private status page as the living "where are we" record.
 
 ## Consequences
 
-- A new session can get up to speed by reading AGENTS.md, then STATUS.md, then the relevant ADRs.
+- A new contributor can get up to speed by reading the architecture overview, then the relevant ADRs.
 - Writing a short ADR is a small, recurring cost.
 - The repo shows decision-making to reviewers and employers.
 

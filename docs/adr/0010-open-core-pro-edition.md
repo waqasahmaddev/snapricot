@@ -1,6 +1,6 @@
 # ADR-0010: Open-core model for a possible Pro edition
 
-- **Status:** Proposed (revisit when the triggers in docs/plan/business-model.md are met)
+- **Status:** Proposed (revisit when the triggers named in this ADR are met)
 - **Date:** 2026-10-09
 
 ## Context

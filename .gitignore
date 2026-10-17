@@ -22,3 +22,13 @@ coverage/
 # OS
 .DS_Store
 Thumbs.db
+
+# Private working files (live in a separate private folder)
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+.claude/
+.ai/
+.cursor/
+.windsurf/
+notes/
